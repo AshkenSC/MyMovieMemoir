@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--Linear layout: Account Input-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="15dp">
+
+            <TextView
+                android:layout_width="91dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginRight="5dp"
+                android:text="Email"
+                android:textSize="20sp" />
+
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="email (for login)" />
+        </LinearLayout>
+
+        <!--Linear layout: Password input-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+
+            <TextView
+                android:layout_width="106dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_marginRight="25dp"
+                android:text="Password"
+                android:textSize="20sp" />
+
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="Input password" />
+        </LinearLayout>
+
+        <!--Linear layout: First name input-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+
+            <TextView
+                android:layout_width="106dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_marginRight="25dp"
+                android:text="First name"
+                android:textSize="20sp" />
+
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="Input first name" />
+        </LinearLayout>
+
+        <!--Linear layout: Surname input-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+
+            <TextView
+                android:layout_width="106dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_marginRight="25dp"
+                android:text="Surname"
+                android:textSize="20sp" />
+
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="Input surname" />
+
+        </LinearLayout>
+
+        <!--Linear layout: Gender input-->
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:text="Gender"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:checked="true"
+                android:text="Female" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Male" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Others" />
+        </RadioGroup>
+
+        <!--DoB input-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="189dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+
+            <TextView
+                android:layout_width="106dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_marginRight="25dp"
+                android:text="DoB"
+                android:textSize="20sp" />
+
+            <DatePicker
+                android:id="@+id/date_Picker"
+                android:layout_width="198dp"
+                android:layout_height="153dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="30dp" />
+
+        </LinearLayout>
+
+        <!--Linear layout: Address input-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+
+            <TextView
+                android:layout_width="106dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_marginRight="25dp"
+                android:text="Address"
+                android:textSize="20sp" />
+
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="Input address" />
+
+        </LinearLayout>
+
+        <!--State input-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+
+            <TextView
+                android:layout_width="106dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_marginRight="25dp"
+                android:text="State"
+                android:textSize="20sp" />
+
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="Input state" />
+        </LinearLayout>
+
+        <!--Postcode input-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="189dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+
+            <TextView
+                android:layout_width="106dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_marginRight="25dp"
+                android:text="Postcode"
+                android:textSize="20sp" />
+
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="Input postcode" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

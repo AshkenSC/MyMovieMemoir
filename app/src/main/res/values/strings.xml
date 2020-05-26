@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Assignment3Test</string>
+    <string name="edit_message">Enter a message.</string>
+    <string name="button_set_course">SET COURSE</string>
+    <string name="RememberPassword">Remember password</string>
+
+    <string-array name="course_array">r
+        <item>MIT</item>
+        <item>MNS</item>
+        <item>MDS</item>
+        <item>MBIS</item>
+        <item>BIT(Hons)</item>
+    </string-array>
+</resources>
