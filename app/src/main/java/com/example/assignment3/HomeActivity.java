@@ -69,6 +69,9 @@ public class HomeActivity extends AppCompatActivity implements
             case R.id.returnHome:
                 replaceFragment(new HomeFragment());
                 break;
+            case R.id.movieMemoir:
+                replaceFragment(new MovieMemoirFragment());
+                break;
             case R.id.addMessage:
                 replaceFragment(new AddFragment());
                 break;

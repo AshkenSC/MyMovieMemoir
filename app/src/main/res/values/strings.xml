@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Assignment3Test</string>
+    <string name="app_name">MyMovieMemoir</string>
     <string name="edit_message">Enter a message.</string>
     <string name="button_set_course">SET COURSE</string>
     <string name="RememberPassword">Remember password</string>
