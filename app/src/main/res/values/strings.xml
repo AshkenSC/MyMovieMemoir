@@ -4,11 +4,18 @@
     <string name="button_set_course">SET COURSE</string>
     <string name="RememberPassword">Remember password</string>
 
-    <string-array name="course_array">r
-        <item>MIT</item>
-        <item>MNS</item>
-        <item>MDS</item>
-        <item>MBIS</item>
-        <item>BIT(Hons)</item>
+    <string-array name="genre_array">r
+        <item>Action</item>
+        <item>Comedy</item>
+        <item>Sci-fi</item>
+        <item>Horror</item>
+        <item>Romance</item>
+        <item>Thriller</item>
+        <item>Crime</item>
+        <item>Animation</item>
     </string-array>
+
+    <string name="Open">open</string>
+    <string name="Close">close</string>
+
 </resources>

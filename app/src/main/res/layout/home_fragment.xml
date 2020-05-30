@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    // app title
+    <TextView
+        android:text="MyMovieMemoir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        />
+
+    // welcome users by their first name
+    // current date
+    <TextView
+        android:id="@+id/homeWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        />
+
+    // related picture
+    <ImageView
+        android:layout_width="326dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/interstellar" />
+
+    // my top 5 movies in 2020
+    <TextView
+        android:text="My top 5 movies in 2020"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        />
+
+    <ListView
+        android:id="@+id/homeListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    // top 5 movie names, release dates and rating score given by the user for current year 2020
+    // use GET method
 
 </LinearLayout>
