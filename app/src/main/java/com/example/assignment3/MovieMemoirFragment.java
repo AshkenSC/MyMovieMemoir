@@ -26,7 +26,7 @@ public class MovieMemoirFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the View for this fragment
         View view = inflater.inflate(R.layout.movie_memoir_fragment, container, false);
-        networkConnection=new NetworkConnection();
+        networkConnection = new NetworkConnection();
 
         // get inflater and container, ready to pass to GetAllPersonsTask
         view2 = view;
