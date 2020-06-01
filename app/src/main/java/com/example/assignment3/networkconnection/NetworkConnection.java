@@ -158,7 +158,9 @@ public class NetworkConnection {
 
         // finally, define response string
         if (strResponse.isEmpty()) {
-            strResponse = "You have successfully registered!";
+            // new user successfully registered, pass the username out
+            // in the form of
+            strResponse = "!@#getUserName:" + details[0];
         }
         else {
             strResponse = "Error occured when registering. Please try again.";

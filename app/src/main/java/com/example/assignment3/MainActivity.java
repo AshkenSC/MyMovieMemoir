@@ -20,6 +20,9 @@ import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends AppCompatActivity {
     NetworkConnection networkConnection = null;
+    // input login info
+    EditText inputUsername = null;
+    EditText inputPassword = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,18 +31,18 @@ public class MainActivity extends AppCompatActivity {
         networkConnection = new NetworkConnection();
 
         // input login info
-        final EditText inputAccount = findViewById(R.id.login_username);
-        final EditText inputPassword = findViewById(R.id.login_password);
+        inputUsername = findViewById(R.id.login_username);
+        inputPassword = findViewById(R.id.login_password);
 
         // sign-in button
         Button signInBtn = findViewById(R.id.signInButton);
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String inputAccountStr = inputAccount.getText().toString();
+                final String inputUsernameStr = inputUsername.getText().toString();
                 final String inputPasswordStr = inputPassword.getText().toString();
-                final String[] inputAccountPasswordList = {inputAccountStr, inputPasswordStr};
-                if (inputAccountStr.isEmpty() || inputPasswordStr.isEmpty()) {
+                final String[] inputAccountPasswordList = {inputUsernameStr, inputPasswordStr};
+                if (inputUsernameStr.isEmpty() || inputPasswordStr.isEmpty()) {
                     Toast.makeText(MainActivity.this,"Username or password cannot be empty",Toast.LENGTH_LONG).show();
                 }
                 else {
@@ -80,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
             if (hashedInputPassword.equals(inputAndQueryPasswords[1])) {
                 Intent intent = new Intent(MainActivity.this,
                         HomeActivity.class);
+                // pass the user's username to Home Activity
+                Bundle bundle = new Bundle();
+                bundle.putString("username", inputUsername.getText().toString());
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
             else {
@@ -89,12 +96,4 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
-
-/*
-{"credentialId":4,"passwordHash":"7c4a8d09ca3762af61e59520943dc26494f8941b","personId":{"personId":4},"signupDate":"2020-01-01T00:00:00+08:00","username":"ashken2"}
-
-Person
-{"address":"Long Street, Wuhu","dob":"1994-11-22T00:00:00+08:00","firstName":"Ashken2","personId":4,"postcode":"8069","stateName":"Anhui","surname":"Bear2"}
-
- */
 

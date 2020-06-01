@@ -108,12 +108,20 @@ public class SignUpActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String addUserStatement) {
-            Toast.makeText(SignUpActivity.this, addUserStatement, Toast.LENGTH_LONG).show();
-            // if successfully registered
-            if (addUserStatement.equals("You have successfully registered!")) {
+            // if successfully registered, let the new user login
+            if(addUserStatement.startsWith("!@#getUserName:")) {
+                String username = addUserStatement.replace("!@#getUserName:", "");
+                Toast.makeText(SignUpActivity.this, "You have successfully registered!", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(SignUpActivity.this,
                         HomeActivity.class);
+                // pass the new user's userId to Home Activity
+                Bundle bundle = new Bundle();
+                bundle.putString("username", username);
+                intent.putExtras(bundle);
                 startActivity(intent);
+            }
+            else {
+                Toast.makeText(SignUpActivity.this, addUserStatement, Toast.LENGTH_LONG).show();
             }
         }
     }

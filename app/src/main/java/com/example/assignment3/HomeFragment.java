@@ -1,5 +1,6 @@
 package com.example.assignment3;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the View for this fragment
         View view = inflater.inflate(R.layout.home_fragment, container, false);
-        
 
         /* display welcome string (welcome + username + date) */
         TextView homeWelcome = view.findViewById(R.id.homeWelcome);

@@ -9,12 +9,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.example.assignment3.networkconnection.NetworkConnection;
 import com.google.android.material.navigation.NavigationView;
 
 import java.text.SimpleDateFormat;
@@ -26,6 +28,10 @@ import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener{
+    NetworkConnection networkConnection = null;
+
+    // user info
+    String username = "";
 
     // declared for navigation drawer
     private DrawerLayout drawerLayout;
@@ -44,6 +50,12 @@ public class HomeActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_nav_drawer);
+        networkConnection = new NetworkConnection();
+
+        /* get logged in user information */
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        username = bundle.getString("username");
 
         /* display sidebar */
         //adding the toolbar
