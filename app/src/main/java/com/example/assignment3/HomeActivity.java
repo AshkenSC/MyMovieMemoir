@@ -15,17 +15,12 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import com.example.assignment3.networkconnection.NetworkConnection;
 import com.google.android.material.navigation.NavigationView;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 public class HomeActivity extends AppCompatActivity implements
@@ -35,6 +30,7 @@ public class HomeActivity extends AppCompatActivity implements
     // username which will be used to get user information
     protected String username = "";
     protected String firstName = "";
+    protected int userId = -1;
 
     // declared for navigation drawer
     private DrawerLayout drawerLayout;
@@ -47,7 +43,7 @@ public class HomeActivity extends AppCompatActivity implements
     SimpleAdapter myListAdapter;
     ListView unitList;
     String[] colHEAD = new String[] {"NAME","RELEASE DATE","SCORE"};
-    int[] dataCell = new int[] {R.id.movieName,R.id.releaseDate,R.id.score};
+    int[] dataCell = new int[] {R.id.homeMovieName,R.id.homeReleaseDate,R.id.score};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +67,17 @@ public class HomeActivity extends AppCompatActivity implements
             e.printStackTrace();
         }
 
+        // get user's id
+        GetUserId getUserId = new GetUserId();
+        getUserId.execute(username);
+        try {
+            userId = getUserId.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         /* display sidebar */
         //adding the toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -85,7 +92,7 @@ public class HomeActivity extends AppCompatActivity implements
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         navigationView.setNavigationItemSelectedListener(this);
-        replaceFragment(new HomeFragment(firstName));
+        replaceFragment(new HomeFragment(userId, firstName));
     }
 
     @Override
@@ -93,7 +100,7 @@ public class HomeActivity extends AppCompatActivity implements
         int id = item.getItemId();
         switch (id) {
             case R.id.returnHome:
-                replaceFragment(new HomeFragment(firstName));
+                replaceFragment(new HomeFragment(userId, firstName));
                 break;
             case R.id.movieMemoir:
                 replaceFragment(new MovieMemoirFragment());
@@ -134,6 +141,18 @@ public class HomeActivity extends AppCompatActivity implements
         @Override
         protected void onPostExecute(String userFirstName) {
             firstName = userFirstName;
+        }
+    }
+
+    private class GetUserId extends AsyncTask<String, Void, Integer> {
+        @Override
+        protected Integer doInBackground(String... usernames) {
+            return networkConnection.getUserId(usernames[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Integer fetchedUserId) {
+            userId = fetchedUserId;
         }
     }
 

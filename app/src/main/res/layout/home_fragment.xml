@@ -24,17 +24,27 @@
 
     // my top 5 movies in 2020
     <TextView
-        android:text="My top 5 movies in 2020"
+        android:text="Top 5 movies I watched in 2020"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         />
 
-    <ListView
-        android:id="@+id/homeListView"
+<!--    <ListView-->
+<!--        android:id="@+id/homeListView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homeRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:scrollbars="vertical"/>
 
 
     // top 5 movie names, release dates and rating score given by the user for current year 2020

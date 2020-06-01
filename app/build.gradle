@@ -43,3 +43,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata:2.2.0'
 
 }
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}

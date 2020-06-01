@@ -199,4 +199,36 @@ public class NetworkConnection {
         }
         return results;
     }
+
+    // get user's id
+    public Integer getUserId(String username) {
+        final String methodPath = "restws.credential/findByUsername/";
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + methodPath + username);
+        Request request = builder.build();
+        try {
+            Response response = client.newCall(request).execute();
+            JSONArray queryResult = new JSONArray(response.body().string());
+            JSONObject personId = new JSONObject(queryResult.getJSONObject(0).getString("personId"));
+            results = personId.getString("personId");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Integer.parseInt(results);
+    }
+
+    // get memoir list to display in home page
+    public String getMemoirForHome(Integer personId) {
+        final String methodPath = "restws.memoir/findMemoir2020/";
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + methodPath + personId);
+        Request request = builder.build();
+        try {
+            Response response = client.newCall(request).execute();
+            results = response.body().string();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return results;
+    }
 }
