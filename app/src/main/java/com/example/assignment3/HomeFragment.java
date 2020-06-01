@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class HomeFragment extends Fragment {
+    // user's first name
+    String firstName;
+
     // declare list view
     List<HashMap<String, String>> unitListArray;
     HashMap<String,String> map = new HashMap<String,String>();
@@ -27,8 +30,9 @@ public class HomeFragment extends Fragment {
     String[] colHEAD = new String[] {"NAME","RELEASE DATE","SCORE"};
     int[] dataCell = new int[] {R.id.movieName,R.id.releaseDate,R.id.score};
     
-    public HomeFragment() {
+    public HomeFragment(String firstName) {
         // Required empty public constructor
+        this.firstName = firstName;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,9 +43,7 @@ public class HomeFragment extends Fragment {
         /* display welcome string (welcome + username + date) */
         TextView homeWelcome = view.findViewById(R.id.homeWelcome);
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-        String username = "BMW driver 1. Today is";
-
-        String welcomeText = "Welcome " + username + date;
+        String welcomeText = "Welcome, " + firstName + ". Today is " + date;
         homeWelcome.setText(welcomeText);
 
         /* display top 5 films */

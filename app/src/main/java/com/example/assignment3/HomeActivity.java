@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -25,13 +26,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 public class HomeActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener{
     NetworkConnection networkConnection = null;
 
-    // user info
-    String username = "";
+    // username which will be used to get user information
+    protected String username = "";
+    protected String firstName = "";
 
     // declared for navigation drawer
     private DrawerLayout drawerLayout;
@@ -52,10 +55,21 @@ public class HomeActivity extends AppCompatActivity implements
         setContentView(R.layout.home_nav_drawer);
         networkConnection = new NetworkConnection();
 
-        /* get logged in user information */
+        /* get logged in username */
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         username = bundle.getString("username");
+
+        // get user's first name
+        GetUserFirstName getUserFirstName = new GetUserFirstName();
+        getUserFirstName.execute(username);
+        try {
+            firstName = getUserFirstName.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         /* display sidebar */
         //adding the toolbar
@@ -71,7 +85,7 @@ public class HomeActivity extends AppCompatActivity implements
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         navigationView.setNavigationItemSelectedListener(this);
-        replaceFragment(new HomeFragment());
+        replaceFragment(new HomeFragment(firstName));
     }
 
     @Override
@@ -79,7 +93,7 @@ public class HomeActivity extends AppCompatActivity implements
         int id = item.getItemId();
         switch (id) {
             case R.id.returnHome:
-                replaceFragment(new HomeFragment());
+                replaceFragment(new HomeFragment(firstName));
                 break;
             case R.id.movieMemoir:
                 replaceFragment(new MovieMemoirFragment());
@@ -109,6 +123,18 @@ public class HomeActivity extends AppCompatActivity implements
         if (toggle.onOptionsItemSelected(item))
             return true;
         return super.onOptionsItemSelected(item);
+    }
+
+    private class GetUserFirstName extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... usernames) {
+            return networkConnection.getFirstName(usernames[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String userFirstName) {
+            firstName = userFirstName;
+        }
     }
 
 }

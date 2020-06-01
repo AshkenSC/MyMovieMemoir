@@ -169,28 +169,34 @@ public class NetworkConnection {
         return strResponse;
     }
 
-    // convert String to java.sql.Date
-    public static java.sql.Date strToDate(String strDate) {
-        String str = strDate;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        java.util.Date d = null;
+//    // convert String to java.sql.Date
+//    public static java.sql.Date strToDate(String strDate) {
+//        String str = strDate;
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//        java.util.Date d = null;
+//        try {
+//            d = format.parse(str);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        java.sql.Date date = new java.sql.Date(d.getTime());
+//        return date;
+//    }
+
+    // get user's first name from username
+    public String getFirstName(String username) {
+        final String methodPath = "restws.credential/findByUsername/";
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + methodPath + username);
+        Request request = builder.build();
         try {
-            d = format.parse(str);
-        } catch (Exception e) {
+            Response response = client.newCall(request).execute();
+            JSONArray queryResult = new JSONArray(response.body().string());
+            JSONObject personId = new JSONObject(queryResult.getJSONObject(0).getString("personId"));
+            results = personId.getString("firstName");
+        }catch (Exception e){
             e.printStackTrace();
         }
-        java.sql.Date date = new java.sql.Date(d.getTime());
-        return date;
+        return results;
     }
 }
-
-
-//{"credentialId":5,"passwordHash":"7c4a8d09ca3762af61e59520943dc26494f8941b","personId":{"DoB":"May 1, 2020","address":"","firstName":"shawn","gender":"Female","personId":5,"postcode":"","stateName":"","surname":""},"signupDate":"May 31, 2020","username":"test1"}
-
-//"credentialId":1,"passwordHash":"7c4a8d09ca3762af61e59520943dc26494f8941b","personId":{"address":"Long Street, Wuhu","dob":"1994-11-22T00:00:00+08:00","firstName":"Ashken","personId":1,"postcode":"8069","stateName":"Anhui","surname":"Bear"},"signupDate":"2020-01-01T00:00:00+08:00","username":"ashken"}
-
-//v3 DoB不对
-// {"credentialId":5,"passwordHash":"7c4a8d09ca3762af61e59520943dc26494f8941b","personId":{"DoB":"2020-05-01","address":"","firstName":"shawn","gender":"Female","personId":5,"postcode":"","stateName":"","surname":""},"signupDate":"2020-05-31","username":"test1"}
-
-//correct
-//{"credentialId":1,"passwordHash":"7c4a8d09ca3762af61e59520943dc26494f8941b","personId":{"address":"Long Street, Wuhu","dob":"1994-11-22T00:00:00+08:00","firstName":"Ashken","personId":1,"postcode":"8069","stateName":"Anhui","surname":"Bear"},"signupDate":"2020-01-01T00:00:00+08:00","username":"ashken"}
