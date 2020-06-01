@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="5dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/search_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="test movie name"
+        />
+        <TextView
+            android:id="@+id/search_release_date"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:textSize="18sp"
+            android:text="2020-05-01"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/search_image"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:contentDescription="film poster">
+        </ImageView>
+    </LinearLayout>
+</LinearLayout>

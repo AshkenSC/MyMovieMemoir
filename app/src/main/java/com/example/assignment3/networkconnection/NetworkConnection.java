@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -223,6 +224,24 @@ public class NetworkConnection {
         Request.Builder builder = new Request.Builder();
         builder.url(BASE_URL + methodPath + personId);
         Request request = builder.build();
+        try {
+            Response response = client.newCall(request).execute();
+            results = response.body().string();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return results;
+    }
+
+    // get movie search result
+    public String getMovieSearchResult(String keyword) {
+        String urlKeyword = URLEncoder.encode(keyword);
+        Request request = new Request.Builder()
+                .url("https://movie-database-imdb-alternative.p.rapidapi.com/?page=1&r=json&s="+urlKeyword)
+                .get()
+                .addHeader("x-rapidapi-host", "movie-database-imdb-alternative.p.rapidapi.com")
+                .addHeader("x-rapidapi-key", "e524238e00msh82ec894551f7e7cp1b7de0jsn58a5c160ad7e")
+                .build();
         try {
             Response response = client.newCall(request).execute();
             results = response.body().string();

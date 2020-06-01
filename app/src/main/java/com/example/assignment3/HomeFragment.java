@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -28,7 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
@@ -71,7 +68,7 @@ public class HomeFragment extends Fragment {
         homeWelcome.setText(welcomeText);
 
         /* recycler view to display top 5 films in 2020, using RecyclerView */
-        recyclerView = view.findViewById(R.id.homeRecyclerView);
+        recyclerView = view.findViewById(R.id.home_recycler_view);
 
         memoirEntries = new ArrayList<>();
         memoirEntries = MemoirEntry.createEntryList();
@@ -111,21 +108,6 @@ public class HomeFragment extends Fragment {
             memoirEntries.add(memoirEntry);
         }
         adapter.addUnits(memoirEntries);
-
-//        unitList = view.findViewById(R.id.homeListView);
-//        unitListArray = new ArrayList<HashMap<String, String>>();
-//        for (int i = 0; i < min(homeMemoirList.size(), 5); i++) {
-//            // insert data to the hash map
-//            map.put("NAME", homeMemoirList.get(i).get(0));
-//            map.put("RELEASE DATE", homeMemoirList.get(i).get(1));
-//            map.put("SCORE",homeMemoirList.get(i).get(2));
-//            // must use CLONE to add new map element
-//            unitListArray.add((HashMap<String, String>) map.clone());
-//        }
-//        // list adapter
-//        myListAdapter = new
-//                SimpleAdapter(getActivity(), unitListArray, R.layout.home_list_view, colHEAD, dataCell);
-//        unitList.setAdapter(myListAdapter);
         
         return view;
     }

@@ -43,7 +43,7 @@ public class HomeActivity extends AppCompatActivity implements
     SimpleAdapter myListAdapter;
     ListView unitList;
     String[] colHEAD = new String[] {"NAME","RELEASE DATE","SCORE"};
-    int[] dataCell = new int[] {R.id.homeMovieName,R.id.homeReleaseDate,R.id.score};
+    int[] dataCell = new int[] {R.id.home_movie_name,R.id.home_release_date,R.id.score};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,10 +99,13 @@ public class HomeActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.returnHome:
+            case R.id.menu_return_home:
                 replaceFragment(new HomeFragment(userId, firstName));
                 break;
-            case R.id.movieMemoir:
+            case R.id.menu_movie_search:
+                replaceFragment(new MovieSearchFragment(userId, firstName));
+                break;
+            case R.id.menu_movie_memoir:
                 replaceFragment(new MovieMemoirFragment());
                 break;
             case R.id.addMessage:

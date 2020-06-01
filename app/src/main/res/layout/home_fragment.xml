@@ -24,7 +24,7 @@
 
     // my top 5 movies in 2020
     <TextView
-        android:text="Top 5 movies I watched in 2020"
+        android:text="Top 5 movies you watched this year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -37,7 +37,7 @@
 <!--        android:layout_height="match_parent" />-->
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/homeRecyclerView"
+        android:id="@+id/home_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
