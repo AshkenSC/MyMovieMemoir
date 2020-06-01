@@ -2,32 +2,21 @@ package com.example.assignment3;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.example.assignment3.networkconnection.NetworkConnection;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     NetworkConnection networkConnection = null;
@@ -38,21 +27,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         networkConnection = new NetworkConnection();
 
-        // Sign-in button
-        final EditText inputAccount = findViewById(R.id.input_account);
-        final EditText inputPassword = findViewById(R.id.input_password);
+        // input login info
+        final EditText inputAccount = findViewById(R.id.login_username);
+        final EditText inputPassword = findViewById(R.id.login_password);
 
+        // sign-in button
         Button signInBtn = findViewById(R.id.signInButton);
-//        signInBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this,
-//                        HomeActivity.class);
-//                startActivity(intent);
-//            } });
-
         signInBtn.setOnClickListener(new View.OnClickListener() {
-            // TODO: 连接数据库，验证帐号密码
             @Override
             public void onClick(View v) {
                 final String inputAccountStr = inputAccount.getText().toString();
@@ -68,13 +49,12 @@ public class MainActivity extends AppCompatActivity {
             } });
 
         // Sign-up button
-        // TODO: 测试用，临时修改
         Button signUpBtn = findViewById(R.id.signUpButton);
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,
-                        HomeActivity.class);
+                        SignUpActivity.class);
                 startActivity(intent);
             } });
     }
@@ -109,4 +89,12 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
+
+/*
+{"credentialId":4,"passwordHash":"7c4a8d09ca3762af61e59520943dc26494f8941b","personId":{"personId":4},"signupDate":"2020-01-01T00:00:00+08:00","username":"ashken2"}
+
+Person
+{"address":"Long Street, Wuhu","dob":"1994-11-22T00:00:00+08:00","firstName":"Ashken2","personId":4,"postcode":"8069","stateName":"Anhui","surname":"Bear2"}
+
+ */
 
