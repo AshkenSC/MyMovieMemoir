@@ -250,4 +250,22 @@ public class NetworkConnection {
         }
         return results;
     }
+
+    public String getMovieDetail(String imdbId) {
+
+        Request request = new Request.Builder()
+                .url("https://movie-database-imdb-alternative.p.rapidapi.com/?i=" + imdbId + "&r=json")
+                .get()
+                .addHeader("x-rapidapi-host", "movie-database-imdb-alternative.p.rapidapi.com")
+                .addHeader("x-rapidapi-key", "e524238e00msh82ec894551f7e7cp1b7de0jsn58a5c160ad7e")
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            results = response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return results;
+    }
 }

@@ -16,29 +16,25 @@ import com.example.assignment3.R;
 import com.example.assignment3.model.SearchResult;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class SearchRecyclerViewAdapter extends RecyclerView.Adapter
         <SearchRecyclerViewAdapter.ViewHolder> {
-//
-//    // setter method
-//    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-//        this.mOnClickListener = onItemClickListener;
-//    }
-//
-//        new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            int itemPosition = mRecyclerView.getChildLayoutPosition(view);
-//            String item = mList.get(itemPosition);
-//            Toast.makeText(mContext, item, Toast.LENGTH_LONG).show();
-//        }
-//    };
+
+    // record click position
+    private int mSelectedPosition;
+
+    public void setSelectedPosition(int position) {
+        mSelectedPosition = position;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // ViewHolder should contain variables for all the views in each row of the list
         public TextView movieNameTextView;
         public TextView releaseDateTextView;
+        public TextView imdbIdTextView;
         public Button detailButton;
         public ImageView movieImageView;
 
@@ -48,6 +44,7 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter
             super(itemView);
             movieNameTextView = itemView.findViewById(R.id.search_name);
             releaseDateTextView = itemView.findViewById(R.id.search_release_date);
+            imdbIdTextView = itemView.findViewById(R.id.search_imdb_id);
             detailButton = itemView.findViewById(R.id.search_detail_button);
             movieImageView = itemView.findViewById(R.id.search_image);
         }
@@ -96,7 +93,8 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter
         TextView tvReleaseDate = viewHolder.releaseDateTextView;
         tvReleaseDate.setText(entry.getReleaseDate());
 
-        Button detailButton = viewHolder.detailButton;
+        TextView tvImdbId = viewHolder.imdbIdTextView;
+        tvImdbId.setText(entry.getMovieIMDBid());
 
         ImageView imageView = viewHolder.movieImageView;
         Picasso.get().load(entry.getImageURL()).into(imageView);

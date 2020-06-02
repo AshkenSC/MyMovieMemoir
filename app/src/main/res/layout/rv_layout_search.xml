@@ -26,6 +26,12 @@
             android:textSize="18sp"
             android:text="2020-05-01"
             />
+        <TextView
+            android:id="@+id/search_imdb_id"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textSize="13sp"
+            android:text="imdb id: 12345"/>
         <Button
             android:id="@+id/search_detail_button"
             android:text="Detail"

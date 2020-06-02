@@ -33,6 +33,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter
             ratingBarView =itemView.findViewById(R.id.home_rating_bar);
         }
     }
+
+
     @Override
     public int getItemCount() {
         return homeMemoirEntries.size();
@@ -46,6 +48,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter
         homeMemoirEntries = units;
         notifyDataSetChanged();
     }
+
+
     //This method creates a new view holder that is constructed with a new View, inflate from a layout
     @Override
     public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
@@ -58,6 +62,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter
         ViewHolder viewHolder = new ViewHolder(unitsView);
         return viewHolder;
     }
+
+
     // this method binds the view holder created with data that will be displayed
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder viewHolder,

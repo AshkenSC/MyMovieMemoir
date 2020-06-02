@@ -35,6 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class MovieSearchFragment extends Fragment {
@@ -91,7 +92,6 @@ public class MovieSearchFragment extends Fragment {
                  /* recycler view to display search result */
                  recyclerView = view.findViewById(R.id.search_recycler_view);
 
-                 // TODO: implement on-click listener on recyclerView
                  recyclerView.addOnItemTouchListener(
                          new SearchRecyclerItemClickListener(getActivity(), recyclerView ,
                                  new SearchRecyclerItemClickListener.OnItemClickListener() {
@@ -102,7 +102,14 @@ public class MovieSearchFragment extends Fragment {
                                  //replaceFragment(new MovieViewFragment(userId, firstName));
 
                                  // new stack way
-                                 startToFragment(getActivity(), R.id.content_frame, new MovieViewFragment(userId, firstName));
+                                 //int clickPos = recyclerView.getChildAdapterPosition(view);
+                                 // get imdb id from text view
+                                 TextView imdbIdView = recyclerView.getChildAt(position).
+                                                    findViewById(R.id.search_imdb_id);
+                                 String imdbId = imdbIdView.getText().toString();
+
+                                 startToFragment(Objects.requireNonNull(getActivity()), R.id.content_frame,
+                                         new MovieViewFragment(imdbId, userId, firstName));
                              }
 
                              @Override public void onLongItemClick(View view, int position) {
@@ -189,11 +196,10 @@ public class MovieSearchFragment extends Fragment {
         }
     }
 
+    // old replace fragment method
     public void replaceFragment(Fragment nextFragment) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        // old replace fragment method
         fragmentTransaction.replace(R.id.content_frame, nextFragment);
 
         fragmentTransaction.commit();

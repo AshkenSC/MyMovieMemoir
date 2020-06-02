@@ -12,8 +12,12 @@ import androidx.fragment.app.Fragment;
 
 import com.example.assignment3.networkconnection.NetworkConnection;
 
+import org.json.JSONObject;
+
 public class MovieMemoirFragment extends Fragment{
-    NetworkConnection networkConnection=null;
+
+    JSONObject dataObject = null;
+    NetworkConnection networkConnection = null;
     // used to pass to GetAllPersonsTask
     View view2 = null;
 
