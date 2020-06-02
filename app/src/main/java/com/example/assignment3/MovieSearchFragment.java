@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.assignment3.adapter.SearchRecyclerItemClickListener;
 import com.example.assignment3.adapter.SearchRecyclerViewAdapter;
 import com.example.assignment3.model.SearchResult;
 import com.example.assignment3.networkconnection.NetworkConnection;
@@ -88,6 +89,21 @@ public class MovieSearchFragment extends Fragment {
 
                  /* recycler view to display search result */
                  recyclerView = view.findViewById(R.id.search_recycler_view);
+
+                 // TODO: implement on-click listener on recyclerView
+                 recyclerView.addOnItemTouchListener(
+                         new SearchRecyclerItemClickListener(getActivity(), recyclerView ,
+                                 new SearchRecyclerItemClickListener.OnItemClickListener() {
+                             @Override public void onItemClick(View view, int position) {
+                                 // do whatever
+                                 Toast.makeText(getActivity(),"test",Toast.LENGTH_LONG).show();
+                             }
+
+                             @Override public void onLongItemClick(View view, int position) {
+                                 // do actions
+                             }
+                         })
+                 );
 
                  searchResults = new ArrayList<>();
                  searchResults = SearchResult.createEntryList();
