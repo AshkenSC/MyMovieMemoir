@@ -14,16 +14,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchResult {
-    private static final int IO_BUFFER_SIZE = 4 * 1024;
-    private static final String TAG = "error";
+
+    private String movieIMDBid;
     private String movieName;
     private String releaseDate;
     private String imageURL;
 
-    public SearchResult(String movieName, String releaseDate, String imageURL) {
+    public SearchResult(String movieIMDBid,String movieName, String releaseDate, String imageURL) {
+        this.movieIMDBid = movieIMDBid;
         this.movieName = movieName;
         this.releaseDate = releaseDate;
         this.imageURL = imageURL;
+    }
+
+    public String getMovieIMDBid() {
+        return movieIMDBid;
+    }
+
+    public void setMovieIMDBid(String movieIMDBid) {
+        this.movieIMDBid = movieIMDBid;
     }
 
     public String getMovieName() {

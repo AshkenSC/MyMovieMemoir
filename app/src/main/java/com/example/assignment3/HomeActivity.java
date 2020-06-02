@@ -121,7 +121,7 @@ public class HomeActivity extends AppCompatActivity implements
         return true;
     }
 
-    private void replaceFragment(Fragment nextFragment) {
+    public void replaceFragment(Fragment nextFragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, nextFragment);

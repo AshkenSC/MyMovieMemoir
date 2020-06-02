@@ -26,6 +26,16 @@
             android:textSize="18sp"
             android:text="2020-05-01"
             />
+        <Button
+            android:id="@+id/search_detail_button"
+            android:text="Detail"
+            android:layout_width="100dp"
+            android:layout_height="32dp"
+            android:textSize="12sp"
+            android:background="@color/colorPrimary"
+            android:textColor="#FFFFF0"
+            android:layout_marginTop="5dp"
+            />
     </LinearLayout>
 
     <LinearLayout

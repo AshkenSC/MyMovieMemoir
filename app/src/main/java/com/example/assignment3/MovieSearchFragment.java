@@ -1,5 +1,6 @@
 package com.example.assignment3;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -10,9 +11,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +36,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MovieSearchFragment extends Fragment {
+    // view
+    View view;
+
+    // network connection
     NetworkConnection networkConnection = null;
 
     // widgets
@@ -50,7 +59,7 @@ public class MovieSearchFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private SearchRecyclerViewAdapter adapter;
-    private List<SearchResult> searchResults;
+    private List<SearchResult> searchResults = new ArrayList<>();
 
     public MovieSearchFragment(int userId, String firstName) {
         // Required empty public constructor
@@ -62,7 +71,7 @@ public class MovieSearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the View for this fragment
-        final View view = inflater.inflate(R.layout.movie_search_fragment, container, false);
+        view = inflater.inflate(R.layout.movie_search_fragment, container, false);
 
         /* display search bar */
         inputKeyword = view.findViewById(R.id.search_movie_bar);
@@ -116,12 +125,31 @@ public class MovieSearchFragment extends Fragment {
                  for (int i = 0; i < movieSearchList.size(); i++) {
                      SearchResult SearchResult = new SearchResult(movieSearchList.get(i).get(0),
                              movieSearchList.get(i).get(1),
-                             movieSearchList.get(i).get(2));
+                             movieSearchList.get(i).get(2),
+                             movieSearchList.get(i).get(3));
                      searchResults.add(SearchResult);
                  }
                  adapter.addUnits(searchResults);
              }
         });
+
+        // set on-click listener on search results
+//        if (searchResults.size() > 0) {
+//            Button searchDetailButton = view.findViewById(R.id.search_detail_button);
+//            searchDetailButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    // make a Toast
+//                    Toast.makeText(getActivity(),"test",Toast.LENGTH_LONG).show();
+//                    // switch to movie view page
+//                    FragmentManager fragmentManager = getFragmentManager();
+//                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+//                    MovieViewFragment movieViewFragment = new MovieViewFragment(userId, firstName);
+//                    transaction.replace(R.id.content_frame, movieViewFragment);
+//                    transaction.addToBackStack(null);
+//                }
+//            });
+//        }
 
         return view;
     }
@@ -134,9 +162,11 @@ public class MovieSearchFragment extends Fragment {
         for (int i = 0; i < dataList.length(); i++) {
             JSONObject entryObject = dataList.getJSONObject(i);
             ArrayList<String> entry = new ArrayList<>();
+            entry.add(entryObject.getString("imdbID"));
             entry.add(entryObject.getString("Title"));
             entry.add(entryObject.getString("Year"));
             entry.add(entryObject.getString("Poster"));
+
             entryList.add(entry);
         }
 

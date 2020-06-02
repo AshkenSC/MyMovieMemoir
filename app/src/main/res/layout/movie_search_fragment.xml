@@ -16,7 +16,7 @@
         <EditText
             android:id="@+id/search_movie_bar"
             android:inputType="text"
-            android:imeOptions="actionGo"
+            android:imeOptions="actionDone"
             android:layout_weight="5"
             android:layout_width="0dp"
             android:layout_height="50dp"
@@ -25,10 +25,12 @@
 
         <Button
             android:id="@+id/search_button"
+            android:background="@color/colorPrimary"
             android:layout_weight="1.8"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:text="Search"/>
+            android:text="Search"
+            android:textColor="#FFFFF0"/>
 
     </LinearLayout>
 
