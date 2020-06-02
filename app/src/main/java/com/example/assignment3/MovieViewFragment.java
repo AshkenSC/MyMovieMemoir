@@ -56,7 +56,7 @@ public class MovieViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the View for this fragment
-        View view = inflater.inflate(R.layout.home_fragment, container, false);
+        View view = inflater.inflate(R.layout.movie_view_fragment, container, false);
 
         // network connection
         networkConnection = new NetworkConnection();

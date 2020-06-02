@@ -1,5 +1,6 @@
 package com.example.assignment3;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -69,7 +70,7 @@ public class MovieSearchFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the View for this fragment
         view = inflater.inflate(R.layout.movie_search_fragment, container, false);
@@ -95,12 +96,17 @@ public class MovieSearchFragment extends Fragment {
                          new SearchRecyclerItemClickListener(getActivity(), recyclerView ,
                                  new SearchRecyclerItemClickListener.OnItemClickListener() {
                              @Override public void onItemClick(View view, int position) {
-                                 // do whatever
-                                 Toast.makeText(getActivity(),"test",Toast.LENGTH_LONG).show();
+                                 // switch fragment
+
+                                 // old replacment way
+                                 //replaceFragment(new MovieViewFragment(userId, firstName));
+
+                                 // new stack way
+                                 startToFragment(getActivity(), R.id.content_frame, new MovieViewFragment(userId, firstName));
                              }
 
                              @Override public void onLongItemClick(View view, int position) {
-                                 // do actions
+                                 // perform actions
                              }
                          })
                  );
@@ -149,24 +155,6 @@ public class MovieSearchFragment extends Fragment {
              }
         });
 
-        // set on-click listener on search results
-//        if (searchResults.size() > 0) {
-//            Button searchDetailButton = view.findViewById(R.id.search_detail_button);
-//            searchDetailButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    // make a Toast
-//                    Toast.makeText(getActivity(),"test",Toast.LENGTH_LONG).show();
-//                    // switch to movie view page
-//                    FragmentManager fragmentManager = getFragmentManager();
-//                    FragmentTransaction transaction = fragmentManager.beginTransaction();
-//                    MovieViewFragment movieViewFragment = new MovieViewFragment(userId, firstName);
-//                    transaction.replace(R.id.content_frame, movieViewFragment);
-//                    transaction.addToBackStack(null);
-//                }
-//            });
-//        }
-
         return view;
     }
 
@@ -199,5 +187,24 @@ public class MovieSearchFragment extends Fragment {
         protected void onPostExecute(String results) {
             movieSearchData = results;
         }
+    }
+
+    public void replaceFragment(Fragment nextFragment) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // old replace fragment method
+        fragmentTransaction.replace(R.id.content_frame, nextFragment);
+
+        fragmentTransaction.commit();
+    }
+
+    // fragment stack, used for press back button to return to previous fragment
+    public void startToFragment(Context context, int container, Fragment newFragment) {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(container, newFragment);
+        transaction.addToBackStack(context.getClass().getName());
+        transaction.commit();
     }
 }
