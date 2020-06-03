@@ -10,6 +10,9 @@
         android:id="@+id/menu_movie_memoir"
         android:title="Movie Memoir" />
     <item
+        android:id="@+id/menu_watchlist"
+        android:title="Watchlist" />
+    <item
         android:id="@+id/addMessage"
         android:title="Add Message" />
     <item

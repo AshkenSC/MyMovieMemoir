@@ -92,6 +92,7 @@ public class MovieSearchFragment extends Fragment {
                  /* recycler view to display search result */
                  recyclerView = view.findViewById(R.id.search_recycler_view);
 
+                 // click search result to switch to detail
                  recyclerView.addOnItemTouchListener(
                          new SearchRecyclerItemClickListener(getActivity(), recyclerView ,
                                  new SearchRecyclerItemClickListener.OnItemClickListener() {

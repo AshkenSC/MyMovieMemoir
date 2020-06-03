@@ -20,14 +20,17 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.assignment3.adapter.RecyclerViewAdapter;
+import com.example.assignment3.localDB.database.WatchlistEntryDatabase;
+import com.example.assignment3.localDB.entity.WatchlistEntry;
 import com.example.assignment3.model.MemoirEntry;
 import com.example.assignment3.networkconnection.NetworkConnection;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class MovieViewFragment extends Fragment {
@@ -40,7 +43,7 @@ public class MovieViewFragment extends Fragment {
     String imdbId;
     String firstName;
     int userId;
-    JSONObject dataObject = null;
+    JSONObject entryJSONObject = null;
 
     // declare RecyclerView
     private RecyclerView recyclerView;
@@ -71,21 +74,24 @@ public class MovieViewFragment extends Fragment {
         getMovieDetail.execute(imdbId);
 
         /* set buttons */
-        Button addToWatchList = view.findViewById(R.id.view_add_to_watchlist);
-        addToWatchList.setOnClickListener(new View.OnClickListener() {
+        final Button BtnaddToWatchList = view.findViewById(R.id.view_add_to_watchlist);
+        BtnaddToWatchList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: use bundle to pass fetched JSON data
-                startToFragment(getActivity(), R.id.content_frame, new MovieMemoirFragment());
+                // startToFragment(getActivity(), R.id.content_frame, new MovieMemoirFragment());   // for temp test
+                AddToWatchlist addToWatchlist = new AddToWatchlist();
+                addToWatchlist.execute(imdbId);
+
             } });
 
 
-        Button addToMemoir = view.findViewById(R.id.menu_movie_memoir);
-        addToMemoir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO
-            } });
+//        Button addToMemoir = view.findViewById(R.id.menu_movie_memoir);
+//        addToMemoir.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // TODO
+//            } });
 
         return view;
     }
@@ -99,21 +105,21 @@ public class MovieViewFragment extends Fragment {
         @Override
         protected void onPostExecute(String results) {
             try {
-                dataObject = new JSONObject(results);
+                entryJSONObject = new JSONObject(results);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             TextView tvTitile = view.findViewById(R.id.view_name);
             try {
-                tvTitile.setText(dataObject.getString("Title"));
+                tvTitile.setText(entryJSONObject.getString("Title"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             TextView tvReleaseDate = view.findViewById(R.id.view_release_date);
             try {
-                tvReleaseDate.setText(dataObject.getString("Released"));
+                tvReleaseDate.setText(entryJSONObject.getString("Released"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -123,52 +129,89 @@ public class MovieViewFragment extends Fragment {
 
             RatingBar ratingBar = view.findViewById(R.id.view_rating_bar);
             try {
-                ratingBar.setRating(Float.parseFloat(dataObject.getString("imdbRating")));
+                ratingBar.setRating(Float.parseFloat(entryJSONObject.getString("imdbRating")));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             ImageView image = view.findViewById(R.id.view_image);
             try {
-                Picasso.get().load(dataObject.getString("Poster")).into(image);
+                Picasso.get().load(entryJSONObject.getString("Poster")).into(image);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             TextView tvGenre = view.findViewById(R.id.view_genre);
             try {
-                tvGenre.setText("Genre: " + dataObject.getString("Genre"));
+                tvGenre.setText("Genre: " + entryJSONObject.getString("Genre"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             TextView tvCountry = view.findViewById(R.id.view_country);
             try {
-                tvCountry.setText("Country: " + dataObject.getString("Country"));
+                tvCountry.setText("Country: " + entryJSONObject.getString("Country"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             TextView tvDirector = view.findViewById(R.id.view_director);
             try {
-                tvDirector.setText("Director: " + dataObject.getString("Director"));
+                tvDirector.setText("Director: " + entryJSONObject.getString("Director"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             TextView tvCast = view.findViewById(R.id.view_cast);
             try {
-                tvCast.setText("Cast: " + dataObject.getString("Actors"));
+                tvCast.setText("Cast: " + entryJSONObject.getString("Actors"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             TextView tvPlotSummary = view.findViewById(R.id.view_plot_summary);
             try {
-                tvPlotSummary.setText("Plot summary: " + dataObject.getString("Plot"));
+                tvPlotSummary.setText("Plot summary: " + entryJSONObject.getString("Plot"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private class AddToWatchlist extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... imdbId) {
+            WatchlistEntry newEntry = null;
+
+            // TODO check if the movie already exists in Room DB
+
+            // if not existed, add a new entry
+            try {
+                String dateToday = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+                newEntry = new WatchlistEntry(imdbId[0],
+                        entryJSONObject.getString("Title"),
+                        entryJSONObject.getString("Released"),
+                        dateToday);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            // insert current entry into the database
+//            if (HomeActivity.db == null) {
+//                HomeActivity.db = WatchlistEntryDatabase.getInstance(getActivity());
+//            }
+            HomeActivity.db.WatchlistEntryDao().insert(newEntry);
+
+            String message = newEntry.getMovieName() + " has been added to your Watchlist!";
+
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String message) {
+            // prompt message
+            Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
         }
     }
 

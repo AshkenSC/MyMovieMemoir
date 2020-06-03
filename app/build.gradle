@@ -36,7 +36,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.5.0'
     implementation 'com.google.code.gson:gson:2.3'
 
-//    navigation drawer dependencies
+    // navigation drawer dependencies
     implementation 'com.google.android.material:material:1.1.0'
     implementation "android.arch.lifecycle:extensions:1.1.0"
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'
@@ -44,6 +44,14 @@ dependencies {
 
     // load image
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    // ViewModel and LiveData
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'
+    implementation "androidx.lifecycle:lifecycle-livedata:2.2.0"
+
+    // Room
+    implementation 'androidx.room:room-runtime:2.2.5'
+    annotationProcessor 'androidx.room:room-compiler:2.2.5'
 
 }
 

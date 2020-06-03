@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.example.assignment3.localDB.database.WatchlistEntryDatabase;
 import com.example.assignment3.networkconnection.NetworkConnection;
 import com.google.android.material.navigation.NavigationView;
 
@@ -26,6 +27,9 @@ import java.util.concurrent.ExecutionException;
 public class HomeActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener{
     NetworkConnection networkConnection = null;
+
+    // declare watchlist Room db instance
+    public static WatchlistEntryDatabase db = null;
 
     // username which will be used to get user information
     protected String username = "";
@@ -49,7 +53,10 @@ public class HomeActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_nav_drawer);
+        // initialize network connection
         networkConnection = new NetworkConnection();
+        // initialize Watchlist db
+        db = WatchlistEntryDatabase.getInstance(this);
 
         /* get logged in username */
         Intent intent = getIntent();
@@ -107,6 +114,9 @@ public class HomeActivity extends AppCompatActivity implements
                 break;
             case R.id.menu_movie_memoir:
                 replaceFragment(new MovieMemoirFragment());
+                break;
+            case R.id.menu_watchlist:
+                replaceFragment(new WatchlistFragment());
                 break;
             case R.id.addMessage:
                 replaceFragment(new AddFragment());
