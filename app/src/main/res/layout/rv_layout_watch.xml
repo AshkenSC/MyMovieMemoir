@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/watchlist_entry"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="2.5dp"
@@ -21,50 +22,65 @@
             android:text="Zootopia the last and the very best test test test"
             />
 
-        <TextView
-            android:id="@+id/watchlist_release_date"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="2020-05-01"/>
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/watchlist_release_date"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:text="Released on: May 1, 2019"/>
+
+            <TextView
+                android:id="@+id/watchlist_imdb_id"
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:text="imdb id: tt12345678"/>
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/watchlist_add_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="2020-05-05"/>
+            android:textSize="15sp"
+            android:text="Add in 2020-05-07"/>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1.7"
-        android:orientation="vertical">
+<!--    <LinearLayout-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_weight="1.7"-->
+<!--        android:orientation="vertical">-->
 
-        <Button
-            android:id="@+id/watch_view_button"
-            android:text="View"
-            android:textAllCaps="false"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="7dp"
-            android:background="@color/colorPrimary"
-            android:textColor="#FFFFF0"/>
+<!--        <Button-->
+<!--            android:text="View"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:layout_marginBottom="7dp"-->
+<!--            android:background="@color/colorPrimary"-->
+<!--            android:textColor="#FFFFF0"/>-->
 
-        <Button
-            android:id="@+id/watch_delete_button"
-            android:text="Delete"
-            android:textAllCaps="false"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="7dp"
-            android:background="@color/colorPrimary"
-            android:textColor="#FFFFF0"/>
+<!--        <Button-->
 
-    </LinearLayout>
+<!--            android:text="Delete"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:layout_marginBottom="7dp"-->
+<!--            android:background="@color/colorPrimary"-->
+<!--            android:textColor="#FFFFF0"/>-->
+
+<!--    </LinearLayout>-->
 
 </LinearLayout>

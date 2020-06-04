@@ -64,6 +64,11 @@ public class MovieViewFragment extends Fragment {
         this.firstName = firstName;
     }
 
+    public MovieViewFragment(String imdbId) {
+        // Required empty public constructor
+        this.imdbId = imdbId;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,13 +103,15 @@ public class MovieViewFragment extends Fragment {
         btnAddToWatchList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: use bundle to pass fetched JSON data
                 if (isExisted) {
                     Toast.makeText(getActivity(),"This film is already in your Watchlist!",Toast.LENGTH_LONG).show();
                 }
                 else {
                     AddToWatchlist addToWatchlist = new AddToWatchlist();
                     addToWatchlist.execute(imdbId);
+                    // mark current movie as Existed
+                    isExisted = true;
+                    btnAddToWatchList.setText("Movie already in Watchlist");
                 }
             } });
 
@@ -238,7 +245,6 @@ public class MovieViewFragment extends Fragment {
         protected Boolean doInBackground(String... imdbId) {
             WatchlistEntry newEntry = null;
 
-            // TODO check if the movie already exists in Room DB
             if (HomeActivity.db.WatchlistEntryDao().findById(imdbId[0]) != null) {
                 return true;
             }

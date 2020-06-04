@@ -11,12 +11,50 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:text="Watchlist"
-            android:textSize="45sp"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginBottom="15dp"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="15dp"
+                android:layout_weight="2"
+                android:text="Watchlist"
+                android:textSize="42sp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="80dp"
+                android:orientation="vertical"
+                >
+
+                <Button
+                    android:id="@+id/watch_view_button"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@color/colorDisabledBtn"
+                    android:text="View"
+                    android:textColor="@color/colorWhite"
+                    />
+
+                <Button
+                    android:id="@+id/watch_delete_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@color/colorDisabledBtn"
+                    android:text="Delete"
+                    android:textColor="@color/colorWhite"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/watchlist_recycler_view"

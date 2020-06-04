@@ -27,6 +27,9 @@ public interface WatchlistEntryDAO {
     @Query("DELETE FROM WatchlistEntry")
     void deleteAll();
 
+    @Query("DELETE FROM WatchlistEntry WHERE imdbId = :inputId")
+    void deleteSelected(String inputId);
+
     @Query("SELECT * FROM WatchlistEntry WHERE imdbId = :inputId LIMIT 1")
     WatchlistEntry findById(String inputId);
 }
