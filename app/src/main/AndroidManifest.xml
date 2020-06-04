@@ -14,6 +14,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
+        <activity android:name=".WatchlistDeleteActivity" />
         <activity android:name=".MovieMemoirActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".MainActivity">
