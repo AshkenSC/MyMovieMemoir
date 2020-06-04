@@ -1,5 +1,6 @@
 package com.example.assignment3;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -32,11 +33,12 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MovieViewFragment extends Fragment {
     NetworkConnection networkConnection = null;
 
-    // current view
+    // current view and widgets
     View view;
 
     // user's info and data
@@ -44,6 +46,9 @@ public class MovieViewFragment extends Fragment {
     String firstName;
     int userId;
     JSONObject entryJSONObject = null;
+
+    // whether current entry exists in db
+    boolean isExisted;
 
     // declare RecyclerView
     private RecyclerView recyclerView;
@@ -74,17 +79,34 @@ public class MovieViewFragment extends Fragment {
         getMovieDetail.execute(imdbId);
 
         /* set buttons */
-        final Button BtnaddToWatchList = view.findViewById(R.id.view_add_to_watchlist);
-        BtnaddToWatchList.setOnClickListener(new View.OnClickListener() {
+        final Button btnAddToWatchList = view.findViewById(R.id.view_add_to_watchlist);
+        // if current movie is already in the list, disable this button
+        CheckExistance checkExistance = new CheckExistance();
+        checkExistance.execute(imdbId);
+        try {
+            isExisted = checkExistance.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if (isExisted) {
+            // change button layout and disable it
+            btnAddToWatchList.setText("Movie already in Watchlist");
+        }
+
+        btnAddToWatchList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: use bundle to pass fetched JSON data
-                // startToFragment(getActivity(), R.id.content_frame, new MovieMemoirFragment());   // for temp test
-                AddToWatchlist addToWatchlist = new AddToWatchlist();
-                addToWatchlist.execute(imdbId);
-
+                if (isExisted) {
+                    Toast.makeText(getActivity(),"This film is already in your Watchlist!",Toast.LENGTH_LONG).show();
+                }
+                else {
+                    AddToWatchlist addToWatchlist = new AddToWatchlist();
+                    addToWatchlist.execute(imdbId);
+                }
             } });
-
 
 //        Button addToMemoir = view.findViewById(R.id.menu_movie_memoir);
 //        addToMemoir.setOnClickListener(new View.OnClickListener() {
@@ -197,14 +219,9 @@ public class MovieViewFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            // insert current entry into the database
-//            if (HomeActivity.db == null) {
-//                HomeActivity.db = WatchlistEntryDatabase.getInstance(getActivity());
-//            }
             HomeActivity.db.WatchlistEntryDao().insert(newEntry);
 
             String message = newEntry.getMovieName() + " has been added to your Watchlist!";
-
             return message;
         }
 
@@ -212,6 +229,27 @@ public class MovieViewFragment extends Fragment {
         protected void onPostExecute(String message) {
             // prompt message
             Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private class CheckExistance extends AsyncTask<String, Void, Boolean> {
+        @SuppressLint("WrongThread")
+        @Override
+        protected Boolean doInBackground(String... imdbId) {
+            WatchlistEntry newEntry = null;
+
+            // TODO check if the movie already exists in Room DB
+            if (HomeActivity.db.WatchlistEntryDao().findById(imdbId[0]) != null) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean existance) {
+            isExisted = existance;
         }
     }
 
