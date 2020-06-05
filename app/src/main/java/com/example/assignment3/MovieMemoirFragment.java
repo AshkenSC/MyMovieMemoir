@@ -16,13 +16,16 @@ import org.json.JSONObject;
 
 public class MovieMemoirFragment extends Fragment{
 
+    private int userId;
+
     JSONObject dataObject = null;
     NetworkConnection networkConnection = null;
     // used to pass to GetAllPersonsTask
     View view2 = null;
 
-    public MovieMemoirFragment() {
+    public MovieMemoirFragment(int userId) {
         // Required empty public constructor
+        this.userId = userId;
     }
 
     @Override

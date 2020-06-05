@@ -34,7 +34,7 @@ public class HomeActivity extends AppCompatActivity implements
     // username which will be used to get user information
     protected String username = "";
     protected String firstName = "";
-    protected int userId = -1;
+    public int userId = -1;
 
     // declared for navigation drawer
     private DrawerLayout drawerLayout;
@@ -113,10 +113,10 @@ public class HomeActivity extends AppCompatActivity implements
                 replaceFragment(new MovieSearchFragment(userId, firstName));
                 break;
             case R.id.menu_movie_memoir:
-                replaceFragment(new MovieMemoirFragment());
+                replaceFragment(new MovieMemoirFragment(userId));
                 break;
             case R.id.menu_watchlist:
-                replaceFragment(new WatchlistFragment());
+                replaceFragment(new WatchlistFragment(userId));
                 break;
             case R.id.addMessage:
                 replaceFragment(new AddFragment());

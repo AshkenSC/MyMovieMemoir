@@ -110,7 +110,7 @@ public class MovieSearchFragment extends Fragment {
                                  String imdbId = imdbIdView.getText().toString();
 
                                  startToFragment(Objects.requireNonNull(getActivity()), R.id.content_frame,
-                                         new MovieViewFragment(imdbId, userId, firstName));
+                                         new MovieViewFragment(userId, firstName, imdbId));
                              }
 
                              @Override public void onLongItemClick(View view, int position) {

@@ -1,21 +1,20 @@
 package com.example.assignment3.networkconnection;
 
 import com.example.assignment3.Credential;
-import com.example.assignment3.DateFormat;
+import com.example.assignment3.DateTimeFormat;
+import com.example.assignment3.Memoir;
 import com.example.assignment3.Person;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Map;
 
-import okhttp3.Credentials;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -138,7 +137,7 @@ public class NetworkConnection {
 
         // insert Credential entry
         java.sql.Date today = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-        String todayStr = DateFormat.dateStrAddTail(new SimpleDateFormat("yyyy-MM-dd").format(today));
+        String todayStr = DateTimeFormat.dateStrAddTail(new SimpleDateFormat("yyyy-MM-dd").format(today));
         Credential credential = new Credential(userId, details[0], details[1], todayStr, person);
 
         gson = new Gson();
@@ -218,6 +217,60 @@ public class NetworkConnection {
         return Integer.parseInt(results);
     }
 
+    // get cinema info
+    public Memoir.Cinema getCinema(int cinemaId) {
+        Memoir.Cinema cinema = null;
+
+        final String methodPath = "restws.cinema/";
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + methodPath + cinemaId);
+        Request request = builder.build();
+        try {
+            Response response = client.newCall(request).execute();
+            JSONObject queryResult = new JSONObject(response.body().string());
+
+            cinema = new Memoir.Cinema(
+                    cinemaId,
+                    queryResult.getString("cinemaName"),
+                    queryResult.getString("cinemaLocation"),
+                    queryResult.getString("cinemaPostcode")
+            );
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return cinema;
+    }
+
+    // get person info
+    public Person getPerson(int userId) {
+        Person person = null;
+
+        final String methodPath = "restws.person/";
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + methodPath + userId);
+        Request request = builder.build();
+        try {
+            Response response = client.newCall(request).execute();
+            JSONObject queryResult = new JSONObject(response.body().string());
+
+            person = new Person(
+                    Integer.parseInt(queryResult.getString("personId")),
+                    queryResult.getString("firstName"),
+                    queryResult.getString("surname"),
+                    "Male",
+                    "1998-01-27",
+                    queryResult.getString("address"),
+                    queryResult.getString("stateName"),
+                    queryResult.getString("postcode")
+            );
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return person;
+    }
+
     // get memoir list to display in home page
     public String getMemoirForHome(Integer personId) {
         final String methodPath = "restws.memoir/findMemoir2020/";
@@ -267,5 +320,60 @@ public class NetworkConnection {
             e.printStackTrace();
         }
         return results;
+    }
+
+    public String submitMemoir(Map<String, String> sourceData) {
+        // parameters String list content:
+        int memoirId = -1;
+        String strResponse = "";
+        Person person = getPerson(Integer.parseInt(sourceData.get("personId")));
+        Memoir.Cinema cinema = getCinema(1);
+
+        String methodPath = "restws.memoir/count";
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + methodPath);
+        Request request = builder.build();
+
+        // get current count of user to initialize user id
+        try {
+            Response response = client.newCall(request).execute();
+            memoirId = Integer.parseInt(response.body().string()) + 1;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        // upload memoir entry data
+        Memoir memoir = new Memoir(
+                memoirId,
+                sourceData.get("movieName"),
+                DateTimeFormat.dateFormatConvert(sourceData.get("movieReleaseDate")),
+                sourceData.get("watchDate"),
+                sourceData.get("watchTime"),
+                sourceData.get("comment")+";;;lll;;;"+sourceData.get("cinemaPostcode")+";;;lll;;;"+sourceData.get("imdbId"),
+                (int)(Float.parseFloat(sourceData.get("score"))*10.0),
+                person,
+                cinema,
+                sourceData.get("cinemaPostcode"),
+                sourceData.get("imdbId")
+        );
+
+        Gson gson = new Gson();
+        String personJson = gson.toJson(memoir);
+
+        methodPath = "restws.memoir/";
+        RequestBody body = RequestBody.create(personJson, JSON);
+
+        request = new Request.Builder()
+                .url(BASE_URL + methodPath)
+                .post(body)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            strResponse = response.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return strResponse;
     }
 }

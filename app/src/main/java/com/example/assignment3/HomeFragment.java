@@ -129,7 +129,12 @@ public class HomeFragment extends Fragment {
             JSONObject entryObject = dataList.getJSONObject(i);
             ArrayList<String> entry = new ArrayList<>();
             entry.add(entryObject.getString("movieName"));
-            entry.add(entryObject.getString("movieReleaseDate").split("T")[0]);
+            if(entryObject.getString("movieReleaseDate") != null) {
+                entry.add(entryObject.getString("movieReleaseDate").split("T")[0]);
+            }
+            else {
+                entry.add("");
+            }
             entry.add(String.valueOf(entryObject.getInt("score")));
             entryList.add(entry);
         }

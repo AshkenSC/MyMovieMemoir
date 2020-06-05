@@ -9,13 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.assignment3.networkconnection.NetworkConnection;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
@@ -62,7 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
                 final String addressStr = address.getText().toString();
                 final String stateStr = state.getText().toString();
                 final String postcodeStr = postcode.getText().toString();
-                final String DoBStr = DateFormat.dateStrAddTail(DateFormat.setDoBStr(DoB));
+                final String DoBStr = DateTimeFormat.dateStrAddTail(DateTimeFormat.getDateStr(DoB));
 
                 // check selected gender and decide gender string
                 final String genderStr;
@@ -97,12 +95,6 @@ public class SignUpActivity extends AppCompatActivity {
     private class SubmitNewUser extends AsyncTask<String[], Void, String> {
         @Override
         protected String doInBackground(String[]... strings) {
-//            try {
-//                return networkConnection.addPerson(strings[0]);
-//            } catch (IOException e) {
-//                    e.printStackTrace();
-//                return "error";
-//            }
             return networkConnection.addPerson(strings[0]);
         }
 

@@ -57,16 +57,17 @@ public class MovieViewFragment extends Fragment {
     private RecyclerViewAdapter adapter;
     private List<MemoirEntry> memoirEntries;
 
-    public MovieViewFragment(String imdbId, int userId, String firstName) {
+    public MovieViewFragment(int userId, String firstName, String imdbId) {
         // Required empty public constructor
         this.imdbId = imdbId;
         this.userId = userId;
         this.firstName = firstName;
     }
 
-    public MovieViewFragment(String imdbId) {
+    public MovieViewFragment(int userId, String imdbId) {
         // Required empty public constructor
         this.imdbId = imdbId;
+        this.userId = userId;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -115,11 +116,12 @@ public class MovieViewFragment extends Fragment {
                 }
             } });
 
-        Button addToMemoir = view.findViewById(R.id.menu_movie_memoir);
+        Button addToMemoir = view.findViewById(R.id.view_add_to_memoir);
         addToMemoir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
+                startToFragment(getActivity(), R.id.content_frame,
+                        new AddToMemoirFragment(userId, imdbId));
             } });
 
         return view;
@@ -158,7 +160,7 @@ public class MovieViewFragment extends Fragment {
 
             RatingBar ratingBar = view.findViewById(R.id.view_rating_bar);
             try {
-                ratingBar.setRating(Float.parseFloat(entryJSONObject.getString("imdbRating")));
+                ratingBar.setRating(Float.parseFloat(entryJSONObject.getString("imdbRating"))/2);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

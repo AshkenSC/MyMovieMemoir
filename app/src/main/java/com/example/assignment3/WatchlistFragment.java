@@ -33,6 +33,8 @@ import java.util.List;
 
 public class WatchlistFragment extends Fragment {
 
+    private int userId;
+
     // View
     static View view;
 
@@ -49,8 +51,9 @@ public class WatchlistFragment extends Fragment {
     // delete confirm
     private static boolean confirmDelete = false;
 
-    public WatchlistFragment() {
+    public WatchlistFragment(int userId) {
         // public constructor
+        this.userId = userId;
     }
 
     @Override
@@ -129,7 +132,7 @@ public class WatchlistFragment extends Fragment {
                     TextView imdbIdView = recyclerView.getChildAt(selectedIndex).findViewById(R.id.watchlist_imdb_id);
                     String imdbId = imdbIdView.getText().toString().replace("imdb id:", "");
                     startToFragment(getActivity(), R.id.content_frame,
-                            new MovieViewFragment(imdbId));
+                            new MovieViewFragment(userId, imdbId));
                 }
             }
         });
