@@ -217,6 +217,25 @@ public class NetworkConnection {
         return Integer.parseInt(results);
     }
 
+    // get cinema count (to decide new cinema id)
+    public Integer getCinemaCount() {
+        Integer cinemaId = null;
+
+        final String methodPath = "restws.cinema/count/";
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + methodPath );
+        Request request = builder.build();
+        
+        try {
+            Response response = client.newCall(request).execute();
+            cinemaId = Integer.parseInt(response.body().string());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        
+        return cinemaId;
+    }
+
     // get cinema info
     public Memoir.Cinema getCinema(int cinemaId) {
         Memoir.Cinema cinema = null;
@@ -327,7 +346,7 @@ public class NetworkConnection {
         int memoirId = -1;
         String strResponse = "";
         Person person = getPerson(Integer.parseInt(sourceData.get("personId")));
-        Memoir.Cinema cinema = getCinema(1);
+        Integer cinemaId = getCinemaCount() + 1;
 
         String methodPath = "restws.memoir/count";
         Request.Builder builder = new Request.Builder();
@@ -352,7 +371,7 @@ public class NetworkConnection {
                 sourceData.get("comment")+";;;lll;;;"+sourceData.get("cinemaPostcode")+";;;lll;;;"+sourceData.get("imdbId"),
                 (int)(Float.parseFloat(sourceData.get("score"))*10.0),
                 person,
-                cinema,
+                new Memoir.Cinema(cinemaId, sourceData.get("imdbId"), sourceData.get("cinemaPostcode")),
                 sourceData.get("cinemaPostcode"),
                 sourceData.get("imdbId")
         );

@@ -19,10 +19,9 @@ public class Memoir {
         String cinemaLocation;
         String cinemaPostcode;
 
-        public Cinema() {
+        public Cinema(int cinemaId, String cinemaName, String cinemaPostcode) {
             this.cinemaId = 1;
             this.cinemaName = "Cineplex";
-            this.cinemaLocation = "221B Baker Street";
             this.cinemaPostcode = "8023";
         }
 

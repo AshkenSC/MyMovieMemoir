@@ -1,5 +1,6 @@
 package com.example.assignment3;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.assignment3.networkconnection.NetworkConnection;
 import com.squareup.picasso.Picasso;
@@ -178,11 +181,19 @@ public class AddToMemoirFragment extends Fragment {
         protected void onPostExecute(String message) {
             if(message == "") {
                 Toast.makeText(getActivity(), "The entry has been successfully uploaded.", Toast.LENGTH_LONG).show();
-                // TODO SWITH fragment
+                startToFragment(getActivity(), R.id.content_frame, new WatchlistFragment(userId));
             }
             else {
                 Toast.makeText(getActivity(), "An error occurred. Upload failed.", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public void startToFragment(Context context, int container, Fragment newFragment) {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(container, newFragment);
+        transaction.addToBackStack(context.getClass().getName());
+        transaction.commit();
     }
 }
