@@ -115,12 +115,12 @@ public class MovieViewFragment extends Fragment {
                 }
             } });
 
-//        Button addToMemoir = view.findViewById(R.id.menu_movie_memoir);
-//        addToMemoir.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // TODO
-//            } });
+        Button addToMemoir = view.findViewById(R.id.menu_movie_memoir);
+        addToMemoir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO
+            } });
 
         return view;
     }
