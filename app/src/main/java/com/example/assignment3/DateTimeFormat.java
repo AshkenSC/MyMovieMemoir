@@ -38,7 +38,7 @@ public class DateTimeFormat {
         String minute = String.valueOf(timePicker.getMinute());
         String second = "00";
 
-        String timeStr = "1970-01-01T" + hour + ":" + minute + ":" + second;
+        String timeStr = "1970-01-01T" + hour + ":" + minute + ":" + second + "+08:00";
         return timeStr;
     }
 

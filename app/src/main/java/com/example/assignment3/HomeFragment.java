@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.assignment3.adapter.RecyclerViewAdapter;
-import com.example.assignment3.model.MemoirEntry;
+import com.example.assignment3.model.HomeMemoirEntry;
 import com.example.assignment3.networkconnection.NetworkConnection;
 
 import org.json.JSONArray;
@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerViewAdapter adapter;
-    private List<MemoirEntry> memoirEntries;
+    private List<HomeMemoirEntry> memoirEntries;
     
     public HomeFragment(int userId, String firstName) {
         // Required empty public constructor
@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.home_recycler_view);
 
         memoirEntries = new ArrayList<>();
-        memoirEntries = MemoirEntry.createEntryList();
+        memoirEntries = HomeMemoirEntry.createEntryList();
 
         GetMemoir2020 getMemoir2020 = new GetMemoir2020();
         getMemoir2020.execute(userId);
@@ -102,7 +102,7 @@ public class HomeFragment extends Fragment {
 
         // add entries to entry list
         for (int i = 0; i < min(homeMemoirList.size(), 5); i++) {
-            MemoirEntry memoirEntry = new MemoirEntry(homeMemoirList.get(i).get(0),
+            HomeMemoirEntry memoirEntry = new HomeMemoirEntry(homeMemoirList.get(i).get(0),
                                                   homeMemoirList.get(i).get(1),
                                         Integer.parseInt(homeMemoirList.get(i).get(2))/20.0);
             memoirEntries.add(memoirEntry);

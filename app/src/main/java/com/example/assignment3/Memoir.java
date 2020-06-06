@@ -20,9 +20,10 @@ public class Memoir {
         String cinemaPostcode;
 
         public Cinema(int cinemaId, String cinemaName, String cinemaPostcode) {
-            this.cinemaId = 1;
-            this.cinemaName = "Cineplex";
-            this.cinemaPostcode = "8023";
+            this.cinemaId = cinemaId;
+            this.cinemaName = cinemaName;
+            this.cinemaLocation = "Australia";
+            this.cinemaPostcode = cinemaPostcode;
         }
 
         public Cinema(int cinemaId, String cinemaName, String cinemaLocation, String cinemaPostcode) {
@@ -30,6 +31,7 @@ public class Memoir {
             this.cinemaName = cinemaName;
             this.cinemaLocation = cinemaLocation;
             this.cinemaPostcode = cinemaPostcode;
+            this.cinemaName = "Cineplex";
         }
     }
 
@@ -46,6 +48,7 @@ public class Memoir {
         this.cinemaPostcode = cinemaPostcode;
         this.imdbId = imdbId;
     }
+
 
     public int getMemoirId() {
         return memoirId;

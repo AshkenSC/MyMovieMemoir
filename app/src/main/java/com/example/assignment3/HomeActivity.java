@@ -118,12 +118,6 @@ public class HomeActivity extends AppCompatActivity implements
             case R.id.menu_watchlist:
                 replaceFragment(new WatchlistFragment(userId));
                 break;
-            case R.id.addMessage:
-                replaceFragment(new AddFragment());
-                break;
-            case R.id.displayMessage:
-                replaceFragment(new ViewFragment());
-                break;
         }
         //this code closes the drawer after you selected an item from the menu,
         //otherwise stay open

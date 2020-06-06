@@ -22,7 +22,7 @@
                 android:layout_height="80dp"
                 android:layout_marginBottom="15dp"
                 android:layout_weight="2"
-                android:text="Watchlist"
+                android:text=" Watchlist"
                 android:textSize="42sp" />
 
             <LinearLayout

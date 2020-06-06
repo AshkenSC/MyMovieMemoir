@@ -3,20 +3,24 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginTop="25dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".MovieMemoirActivity">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnFindAll"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="get all courses"
-            />
+            android:layout_height="80dp"
+            android:layout_marginBottom="-15dp"
+            android:layout_weight="2"
+            android:text="  Memoir"
+            android:textSize="42sp" />
+
 
         // sorting option buttons
         <TextView
@@ -24,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
             />
 
         <LinearLayout
@@ -32,47 +36,45 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
             <Button
+                android:id="@+id/memoir_date_sort"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
-                android:text="Release date"
-                android:layout_weight="1">
+                android:text="Watch date"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/colorWhite"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
             </Button>
 
             <Button
+                android:id="@+id/memoir_user_sort"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textAllCaps="false"
-                android:text="My score">
+                android:text="My rating"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/colorWhite"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
             </Button>
 
             <Button
+                android:id="@+id/memoir_public_sort"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
-                android:text="Public score"
-                android:layout_weight="1">
+                android:text="Public rating"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/colorWhite"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
             </Button>
         </LinearLayout>
 
-        // filter spinner
-        <TextView
-            android:text="Filter:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            />
-
-        <Spinner
-            android:id="@+id/memoirFilterSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:entries="@array/genre_array"/>
 
         // result list
         <TextView
@@ -84,9 +86,15 @@
             android:layout_marginLeft="10dp"
             />
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/memoir_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="307dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:scrollbars="vertical"/>
 
 
     </LinearLayout>

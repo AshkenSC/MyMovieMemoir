@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.assignment3.R;
-import com.example.assignment3.model.MemoirEntry;
+import com.example.assignment3.model.HomeMemoirEntry;
 
 import java.util.List;
 
@@ -39,12 +39,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter
     public int getItemCount() {
         return homeMemoirEntries.size();
     }
-    private List<MemoirEntry> homeMemoirEntries;
+    private List<HomeMemoirEntry> homeMemoirEntries;
     // Pass in the contact array into the constructor
-    public RecyclerViewAdapter(List<MemoirEntry> units) {
+    public RecyclerViewAdapter(List<HomeMemoirEntry> units) {
         homeMemoirEntries = units;
     }
-    public void addUnits(List<MemoirEntry> units) {
+    public void addUnits(List<HomeMemoirEntry> units) {
         homeMemoirEntries = units;
         notifyDataSetChanged();
     }
@@ -68,7 +68,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder viewHolder,
                                  int position) {
-        final MemoirEntry entry = homeMemoirEntries.get(position);
+        final HomeMemoirEntry entry = homeMemoirEntries.get(position);
         // viewholder binding with its data at the specified position
         TextView tvMovieName= viewHolder.movieNameTextView;
         tvMovieName.setText(entry.getMovieName());

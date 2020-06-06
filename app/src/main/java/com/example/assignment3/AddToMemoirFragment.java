@@ -29,8 +29,10 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -63,8 +65,9 @@ public class AddToMemoirFragment extends Fragment {
     float ratingScore;
     boolean isRated = false;
 
-    // packed memoir data
+    // packed data
     Map<String, String> memoirData = new HashMap<>();
+    Map<String, String> cinemaData = new HashMap<>();
 
     public AddToMemoirFragment(int userId, String imdbId) {
         // Required empty public constructor
@@ -124,12 +127,21 @@ public class AddToMemoirFragment extends Fragment {
                  memoirData.put("comment", comment.getText().toString());
                  memoirData.put("score", String.valueOf(ratingScore));
                  memoirData.put("personId", String.valueOf(userId));
-                 memoirData.put("imdbId", imdbId);
+                 memoirData.put("imdbId", tvImdbId.getText().toString());
                  memoirData.put("cinemaPostcode", cinemaPostcode.getText().toString());
 
-                 // upload to database
+                 cinemaData.put("cinemaName", tvImdbId.getText().toString());
+                 cinemaData.put("cinemaLocation", "Australia");
+                 cinemaData.put("cinemaPostcode", cinemaPostcode.getText().toString());
+
+                 // put cinema and memoir data into a list
+                 List<Map<String, String>> cinemaAndMemoir = new ArrayList<>();
+                 cinemaAndMemoir.add(cinemaData);
+                 cinemaAndMemoir.add(memoirData);
+
+                 // upload memoir to database
                  SubmitMemoir submitMemoir = new SubmitMemoir();
-                 submitMemoir.execute(memoirData);
+                 submitMemoir.execute(cinemaAndMemoir);
              }});
 
         return view;
@@ -171,9 +183,9 @@ public class AddToMemoirFragment extends Fragment {
     }
 
     // submit memoir
-    private class SubmitMemoir extends AsyncTask<Map<String, String>, Void, String> {
+    private class SubmitMemoir extends AsyncTask<List<Map<String, String>>, Void, String> {
         @Override
-        protected String doInBackground(Map<String, String>... sourceData) {
+        protected String doInBackground(List<Map<String, String>>... sourceData) {
             return networkConnection.submitMemoir(sourceData[0]);
         }
 
@@ -197,3 +209,10 @@ public class AddToMemoirFragment extends Fragment {
         transaction.commit();
     }
 }
+
+/*
+
+{"cinemaId":{"cinemaId":4,"cinemaLocation":"Australia","cinemaName":"tt9590742","cinemaPostcode":"8007"},"cinemaPostcode":"8007","comment":"ok;;;lll;;;8007;;;lll;;;tt9590742","imdbId":"tt9590742","memoirId":7,"movieName":"Return to Zootopia","movieReleaseDate":"2017-10-01T00:00:00+08:00","personId":{"address":"Long Street, Wuhu","dob":"1998-01-27","firstName":"Ashken","gender":"Male","personId":1,"postcode":"8002","stateName":"Anhui","surname":"Bear"},"score":40,"watchDate":"2020-06-05T00:00:00+08:00","watchTime":"1970-01-01T22:14:00"}
+
+{"cinemaId":{"cinemaId":12,"cinemaLocation":"Australia","cinemaName":"tt2380307","cinemaPostcode":"8007"},"cinemaPostcode":"8007","comment":"ok;;;lll;;;8007;;;lll;;;tt2380307","imdbId":"tt2380307","memoirId":7,"movieName":"Coco","movieReleaseDate":"2017-11-22T00:00:00+08:00","personId":{"address":"Long Street, Wuhu","dob":"1998-01-27T00:00:00+08:00","firstName":"Ashken","gender":"Male","personId":1,"postcode":"8002","stateName":"Anhui","surname":"Bear"},"score":30,"watchDate":"2020-06-05T00:00:00+08:00","watchTime":"1970-01-01T22:52:00"}
+ */

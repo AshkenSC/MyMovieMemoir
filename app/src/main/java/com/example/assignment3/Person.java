@@ -1,23 +1,21 @@
 package com.example.assignment3;
 
-import java.sql.Date;
-
 public class Person {
     private int personId;
     private String firstName;
     private String surname;
     private String gender;
-    private String DoB;
+    private String dob;
     private String address;
     private String stateName;
     private String postcode;
 
-    public Person(int personId, String firstName, String surname, String gender, String DoB, String address, String stateName, String postcode) {
+    public Person(int personId, String firstName, String surname, String gender, String dob, String address, String stateName, String postcode) {
         this.personId = personId;
         this.firstName = firstName;
         this.surname = surname;
         this.gender = gender;
-        this.DoB = DoB;
+        this.dob = dob;
         this.address = address;
         this.stateName = stateName;
         this.postcode = postcode;
@@ -60,11 +58,11 @@ public class Person {
         this.gender = gender;
     }
 
-    public String getDoB() {
-        return DoB;
+    public String getDob() {
+        return dob;
     }
 
-    public void setDoB(String DoB) {
+    public void setDob(String DoB) {
         DoB = DoB;
     }
 

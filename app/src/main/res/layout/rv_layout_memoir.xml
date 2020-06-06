@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="5dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/memoir_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:text="test movie name"
+                />
+
+            <TextView
+                android:id="@+id/memoir_imdb_id"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:textSize="13sp"
+                android:text="imdb id: 12345"/>
+
+            <RatingBar
+                android:id="@+id/memoir_rating_bar"
+                android:rating="3.0"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="80dp"
+                android:layout_height="19dp"
+                android:numStars="5"
+                android:isIndicator="true"
+                />
+
+            <TextView
+                android:id="@+id/memoir_release_date"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:textSize="15sp"
+                android:text="2020-05-01"
+                />
+
+            <TextView
+                android:id="@+id/memoir_user_watch_date"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:textSize="15sp"
+                android:text="user watched on 2020-08-02"/>
+
+            <TextView
+                android:id="@+id/memoir_cinema_postcode"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:textSize="15sp"
+                android:text="cinema postcode: 8080"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0">
+
+            <ImageView
+                android:id="@+id/memoir_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="film poster"></ImageView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/memoir_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="test test test test test test test test test test"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.MediaType;
@@ -278,7 +279,7 @@ public class NetworkConnection {
                     queryResult.getString("firstName"),
                     queryResult.getString("surname"),
                     "Male",
-                    "1998-01-27",
+                    "1998-01-27T00:00:00+08:00",
                     queryResult.getString("address"),
                     queryResult.getString("stateName"),
                     queryResult.getString("postcode")
@@ -293,6 +294,21 @@ public class NetworkConnection {
     // get memoir list to display in home page
     public String getMemoirForHome(Integer personId) {
         final String methodPath = "restws.memoir/findMemoir2020/";
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + methodPath + personId);
+        Request request = builder.build();
+        try {
+            Response response = client.newCall(request).execute();
+            results = response.body().string();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return results;
+    }
+
+    // get all memoir entries
+    public String getMemoirData(Integer personId) {
+        final String methodPath = "restws.memoir/findByPersonId/";
         Request.Builder builder = new Request.Builder();
         builder.url(BASE_URL + methodPath + personId);
         Request request = builder.build();
@@ -324,7 +340,6 @@ public class NetworkConnection {
     }
 
     public String getMovieDetail(String imdbId) {
-
         Request request = new Request.Builder()
                 .url("https://movie-database-imdb-alternative.p.rapidapi.com/?i=" + imdbId + "&r=json")
                 .get()
@@ -341,11 +356,15 @@ public class NetworkConnection {
         return results;
     }
 
-    public String submitMemoir(Map<String, String> sourceData) {
+    public String submitMemoir(List<Map<String, String>> sourceData) {
+        // in the parameter:
+        // sourceData.get(0) is cinema info;
+        // sourceData.get(1) is memoir info;
+
         // parameters String list content:
         int memoirId = -1;
         String strResponse = "";
-        Person person = getPerson(Integer.parseInt(sourceData.get("personId")));
+        Person person = getPerson(Integer.parseInt(sourceData.get(1).get("personId")));
         Integer cinemaId = getCinemaCount() + 1;
 
         String methodPath = "restws.memoir/count";
@@ -361,26 +380,50 @@ public class NetworkConnection {
             e.printStackTrace();
         }
 
-        // upload memoir entry data
-        Memoir memoir = new Memoir(
-                memoirId,
-                sourceData.get("movieName"),
-                DateTimeFormat.dateFormatConvert(sourceData.get("movieReleaseDate")),
-                sourceData.get("watchDate"),
-                sourceData.get("watchTime"),
-                sourceData.get("comment")+";;;lll;;;"+sourceData.get("cinemaPostcode")+";;;lll;;;"+sourceData.get("imdbId"),
-                (int)(Float.parseFloat(sourceData.get("score"))*10.0),
-                person,
-                new Memoir.Cinema(cinemaId, sourceData.get("imdbId"), sourceData.get("cinemaPostcode")),
-                sourceData.get("cinemaPostcode"),
-                sourceData.get("imdbId")
+        // upload cinema entry data
+        Memoir.Cinema cinema = new Memoir.Cinema(
+                cinemaId,
+                sourceData.get(0).get("cinemaName"),
+                sourceData.get(0).get("cinemaPostcode")
         );
 
         Gson gson = new Gson();
-        String personJson = gson.toJson(memoir);
+        String cinemaJson = gson.toJson(cinema);
+
+        methodPath = "restws.cinema/";
+        RequestBody body = RequestBody.create(cinemaJson, JSON);
+
+        request = new Request.Builder()
+                .url(BASE_URL + methodPath)
+                .post(body)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            strResponse = response.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // upload memoir entry data
+        Memoir memoir = new Memoir(
+                memoirId,
+                sourceData.get(1).get("movieName"),
+                DateTimeFormat.dateFormatConvert(sourceData.get(1).get("movieReleaseDate")),
+                sourceData.get(1).get("watchDate"),
+                sourceData.get(1).get("watchTime"),
+                sourceData.get(1).get("comment")+";;;lll;;;"+sourceData.get(1).get("cinemaPostcode")+";;;lll;;;"+sourceData.get(1).get("imdbId"),
+                (int)(Float.parseFloat(sourceData.get(1).get("score"))*10.0),
+                person,
+                new Memoir.Cinema(cinemaId, sourceData.get(1).get("imdbId"), sourceData.get(1).get("cinemaPostcode")),
+                sourceData.get(1).get("cinemaPostcode"),
+                sourceData.get(1).get("imdbId")
+        );
+
+        gson = new Gson();
+        String memoirJson = gson.toJson(memoir);
 
         methodPath = "restws.memoir/";
-        RequestBody body = RequestBody.create(personJson, JSON);
+        body = RequestBody.create(memoirJson, JSON);
 
         request = new Request.Builder()
                 .url(BASE_URL + methodPath)

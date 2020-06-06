@@ -21,9 +21,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.assignment3.adapter.RecyclerViewAdapter;
-import com.example.assignment3.localDB.database.WatchlistEntryDatabase;
 import com.example.assignment3.localDB.entity.WatchlistEntry;
-import com.example.assignment3.model.MemoirEntry;
+import com.example.assignment3.model.HomeMemoirEntry;
 import com.example.assignment3.networkconnection.NetworkConnection;
 import com.squareup.picasso.Picasso;
 
@@ -55,7 +54,7 @@ public class MovieViewFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerViewAdapter adapter;
-    private List<MemoirEntry> memoirEntries;
+    private List<HomeMemoirEntry> memoirEntries;
 
     public MovieViewFragment(int userId, String firstName, String imdbId) {
         // Required empty public constructor
