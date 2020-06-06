@@ -126,7 +126,7 @@ public class MemoirRecyclerViewAdapter extends RecyclerView.Adapter
         userRatingBar.setRating((float)(entry.getUserRating() / 20.0));
 
         RatingBar publicRatingBar = viewHolder.publicRatingBar;
-        publicRatingBar.setRating((float)(entry.getImdbRating()));
+        publicRatingBar.setRating(entry.getImdbRating() / 2);
 
     }
 }
