@@ -49,10 +49,11 @@ public class MovieMemoirFragment extends Fragment{
 
     // declare RecyclerView
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.Adapter<RecyclerView.ViewHolder> mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private MemoirRecyclerViewAdapter adapter;
     public ArrayList<MemoirEntry> memoirEntries = new ArrayList<>();
+    public List<MemoirEntry> sortedEntries = new ArrayList<>();
 
     public MovieMemoirFragment(int userId) {
         // Required empty public constructor
@@ -212,6 +213,8 @@ public class MovieMemoirFragment extends Fragment{
                 adapter.removeAllUnits();
                 // reload all units
                 adapter.addUnits(sortedEntries);
+                // clone sorted entries to entry list
+                memoirEntries = new ArrayList<>(sortedEntries);
             }
         });
 
@@ -227,12 +230,14 @@ public class MovieMemoirFragment extends Fragment{
                 adapter.removeAllUnits();
                 // reload all units
                 adapter.addUnits(sortedEntries);
+                // clone sorted entries to entry list
+                memoirEntries = new ArrayList<>(sortedEntries);
             }
         });
 
         // sort by public rating
         Button btnSortByPublicRating = view.findViewById(R.id.memoir_public_sort);
-        btnSortByUserRating.setOnClickListener(new View.OnClickListener() {
+        btnSortByPublicRating.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
@@ -242,6 +247,8 @@ public class MovieMemoirFragment extends Fragment{
                 adapter.removeAllUnits();
                 // reload all units
                 adapter.addUnits(sortedEntries);
+                // clone sorted entries to entry list
+                memoirEntries = new ArrayList<>(sortedEntries);
             }
         });
 
@@ -358,7 +365,7 @@ public class MovieMemoirFragment extends Fragment{
         });
 
         // keep a copy of sorted entries
-        List<MemoirEntry> sortedEntries = (List<MemoirEntry>) memoirEntries.clone();
+        sortedEntries = (List<MemoirEntry>) memoirEntries.clone();
         return sortedEntries;
     }
 
@@ -380,7 +387,7 @@ public class MovieMemoirFragment extends Fragment{
         });
 
         // keep a copy of sorted entries
-        List<MemoirEntry> sortedEntries = (List<MemoirEntry>) memoirEntries.clone();
+        sortedEntries = (List<MemoirEntry>) memoirEntries.clone();
         return sortedEntries;
     }
 
@@ -402,7 +409,7 @@ public class MovieMemoirFragment extends Fragment{
         });
 
         // keep a copy of sorted entries
-        List<MemoirEntry> sortedEntries = (List<MemoirEntry>) memoirEntries.clone();
+        sortedEntries = (List<MemoirEntry>) memoirEntries.clone();
         return sortedEntries;
     }
 }
