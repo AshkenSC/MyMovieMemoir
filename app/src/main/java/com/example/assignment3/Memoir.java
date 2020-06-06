@@ -1,5 +1,9 @@
 package com.example.assignment3;
 
+import com.example.assignment3.model.MemoirEntry;
+
+import java.util.List;
+
 public class Memoir {
     private int memoirId;
     private String movieName;

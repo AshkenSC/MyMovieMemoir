@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -19,9 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.assignment3.adapter.MemoirItemClickListener;
 import com.example.assignment3.adapter.MemoirRecyclerViewAdapter;
-import com.example.assignment3.adapter.SearchRecyclerViewAdapter;
 import com.example.assignment3.model.MemoirEntry;
-import com.example.assignment3.model.SearchResult;
 import com.example.assignment3.networkconnection.NetworkConnection;
 
 import org.json.JSONArray;
@@ -29,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -39,7 +39,7 @@ public class MovieMemoirFragment extends Fragment{
     private int userId;
     String memoirData;
     JSONArray dataArray = null;
-    String tempURL;
+    String cacheImageURLandRating;
 
     // internet connection
     NetworkConnection networkConnection = null;
@@ -52,7 +52,7 @@ public class MovieMemoirFragment extends Fragment{
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private MemoirRecyclerViewAdapter adapter;
-    List<MemoirEntry> memoirEntries = new ArrayList<>();
+    public ArrayList<MemoirEntry> memoirEntries = new ArrayList<>();
 
     public MovieMemoirFragment(int userId) {
         // Required empty public constructor
@@ -95,6 +95,7 @@ public class MovieMemoirFragment extends Fragment{
 
             String movieName = "";
             String imdbId = "";
+            float imdbRaing = 0;
             String watchDate = "";
             String cinemaPostcode = "";
             String comment = "";
@@ -146,18 +147,22 @@ public class MovieMemoirFragment extends Fragment{
             memoirEntries.add(memoirEntry);
         }
 
-        // load image from API
+        // load image and imdb rating from API
         for (int i = 0; i < memoirEntries.size(); i++) {
-            GetImageURL getImageURL = new GetImageURL();
-            getImageURL.execute(memoirEntries.get(i).getImdbId());
+            GetImageURLandRating getImageURLandRating = new GetImageURLandRating();
+            getImageURLandRating.execute(memoirEntries.get(i).getImdbId());
             try {
-                tempURL = getImageURL.get();
+                cacheImageURLandRating = getImageURLandRating.get();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            memoirEntries.get(i).setImageURL(tempURL);
+            // parse string to get imdb rating and image url
+            String imdbRating = cacheImageURLandRating.split(";;;lll;;;")[0];
+            String imageURL = cacheImageURLandRating.split(";;;lll;;;")[1];
+            memoirEntries.get(i).setImdbRating(Float.parseFloat(imdbRating));
+            memoirEntries.get(i).setImageURL(imageURL);
         }
 
         // display memoir entries
@@ -169,7 +174,7 @@ public class MovieMemoirFragment extends Fragment{
         recyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        // add entries to entry list
+        // add entries to recycler view
         adapter.addUnits(memoirEntries);
         
         // recycilerview onClick listener
@@ -195,16 +200,25 @@ public class MovieMemoirFragment extends Fragment{
                         })
         );
 
+        // sort by watch date
+        Button btnSortByWatchDate = view.findViewById(R.id.memoir_date_sort);
+        btnSortByWatchDate.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                // sort entries
+                List<MemoirEntry> sortedEntries = sortedEntriesByWatchDate();
+                // remove all units from current recycler view
+                adapter.removeAllUnits();
+                // reload all units
+                adapter.addUnits(sortedEntries);
+            }
+        });
 
+        // sort by user's rating
 
-        // find all persons button
-//        Button findAllStudentsBtn = view.findViewById(R.id.btnFindAll);
-//        findAllStudentsBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        // sort by public rating
+
 
         return view;
     }
@@ -220,14 +234,14 @@ public class MovieMemoirFragment extends Fragment{
         }
     }
 
-    private class GetImageURL extends AsyncTask<String, Void, String> {
+    private class GetImageURLandRating extends AsyncTask<String, Void, String> {
         private OnTaskCompleted listener;
 
-        public GetImageURL(OnTaskCompleted listener) {
+        public GetImageURLandRating(OnTaskCompleted listener) {
             this.listener = listener;
         }
 
-        public GetImageURL() {
+        public GetImageURLandRating() {
 
         }
 
@@ -242,17 +256,24 @@ public class MovieMemoirFragment extends Fragment{
             }
             String url = null;
             try {
-                url = jsonObject.getString("Poster");
+                url = jsonObject.getString("imdbRating");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                url += ";;;lll;;;";
+                url += jsonObject.getString("Poster");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
+            // return string format: rating;;;lll;;;url
             return url;
         }
         @Override
         protected void onPostExecute(String imageURL) {
             //listener.onTaskCompleted(url);
-            tempURL = imageURL;
+            cacheImageURLandRating = imageURL;
         }
     }
 
@@ -268,6 +289,51 @@ public class MovieMemoirFragment extends Fragment{
         transaction.replace(container, newFragment);
         transaction.addToBackStack(context.getClass().getName());
         transaction.commit();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private List<MemoirEntry> sortedEntriesByWatchDate() {
+        memoirEntries.sort(new Comparator<MemoirEntry>() {
+            @Override
+            public int compare(MemoirEntry o1, MemoirEntry o2) {
+                int year1 = Integer.parseInt(o1.getWatchDate().split("T")[0].split("-")[0]);
+                int month1 = Integer.parseInt(o1.getWatchDate().split("T")[0].split("-")[1]);
+                int day1 = Integer.parseInt(o1.getWatchDate().split("T")[0].split("-")[2]);
+
+                int year2 = Integer.parseInt(o2.getWatchDate().split("T")[0].split("-")[0]);
+                int month2 = Integer.parseInt(o2.getWatchDate().split("T")[0].split("-")[1]);
+                int day2 = Integer.parseInt(o2.getWatchDate().split("T")[0].split("-")[2]);
+
+                if (year1 != year2) {
+                    if (year1 > year2) {
+                        return -1;
+                    }
+                    else {
+                        return 1;
+                    }
+                }
+                else if (month1 != month2){
+                    if (month1 > month2) {
+                        return -1;
+                    }
+                    else {
+                        return 1;
+                    }
+                }
+                else {
+                    if (day1 > day2) {
+                        return -1;
+                    }
+                    else {
+                        return 1;
+                    }
+                }
+            }
+        });
+
+        // keep a copy of sorted
+        List<MemoirEntry> sortedEntries = (List<MemoirEntry>) memoirEntries.clone();
+        return sortedEntries;
     }
 
 }

@@ -67,9 +67,17 @@ public class MemoirRecyclerViewAdapter extends RecyclerView.Adapter
         memoirEntries = units;
     }
 
+    // add items from the list units
     public void addUnits(List<MemoirEntry> units) {
         memoirEntries = units;
         notifyDataSetChanged();
+    }
+
+    // remove all units from recycler view
+    public void removeAllUnits() {
+        int size = memoirEntries.size();
+        memoirEntries.clear();
+        notifyItemRangeRemoved(0, size);
     }
 
     //This method creates a new view holder that is constructed with a new View, inflate from a layout

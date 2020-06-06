@@ -7,27 +7,46 @@ import java.util.List;
 
 public class MemoirEntry {
 
-        String movieName;
-        String imdbId;
-        String watchDate;
-        String releaseDate;
-        String cinemaPostcode;
-        String comment;
-        int userRating;
+    public String movieName;
+    public String imdbId;
+    public float imdbRating;
+    public String watchDate;
+    public String releaseDate;
+    public String cinemaPostcode;
+    public String comment;
+    public int userRating;
 
-        // load from Internet
-        String imageURL;
+    // load from Internet
+    public String imageURL;
 
-        public MemoirEntry(String movieName, String imdbId, String watchDate, String releaseDate,
-                           String cinemaPostcode, String comment, int userRating) {
-            this.movieName = movieName;
-            this.imdbId = imdbId;
-            this.watchDate = watchDate;
-            this.releaseDate = releaseDate;
-            this.cinemaPostcode = cinemaPostcode;
-            this.comment = comment;
-            this.userRating = userRating;
-        }
+    public MemoirEntry(String movieName, String imdbId, String watchDate, String releaseDate,
+                       String cinemaPostcode, String comment, int userRating) {
+        this.movieName = movieName;
+        this.imdbId = imdbId;
+        this.imdbRating = imdbRating;
+        this.watchDate = watchDate;
+        this.releaseDate = releaseDate;
+        this.cinemaPostcode = cinemaPostcode;
+        this.comment = comment;
+        this.userRating = userRating;
+    }
+
+    // copy constructor
+    public MemoirEntry (MemoirEntry right) {
+        this.movieName = right.movieName;
+        this.imdbId = right.imdbId;
+        this.imdbRating = right.imdbRating;
+        this.watchDate = right.watchDate;
+        this.releaseDate = right.releaseDate;
+        this.cinemaPostcode = right.cinemaPostcode;
+        this.comment = right.comment;
+        this.userRating = right.userRating;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return new MemoirEntry( this );
+    }
 
     public String getMovieName() {
         return movieName;
@@ -43,6 +62,14 @@ public class MemoirEntry {
 
     public void setImdbId(String imdbId) {
         this.imdbId = imdbId;
+    }
+
+    public float getImdbRating() {
+        return imdbRating;
+    }
+
+    public void setImdbRating(float imdbRating) {
+        this.imdbRating = imdbRating;
     }
 
     public String getWatchDate() {

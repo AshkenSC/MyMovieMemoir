@@ -146,7 +146,7 @@ public class WatchlistFragment extends Fragment {
                     Toast.makeText(getActivity(), "Select an entry first", Toast.LENGTH_LONG).show();
                     return;
                 }
-
+                // pop up a message box, and delete if user confirms
                 DeleteDialogFragment deleteDialogFragment = new DeleteDialogFragment();
                 deleteDialogFragment.show(getFragmentManager(), "Confirm delete");
             }

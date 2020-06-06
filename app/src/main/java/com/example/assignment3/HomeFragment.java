@@ -123,6 +123,7 @@ public class HomeFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private ArrayList<ArrayList<String>> parseData(String homeMemoirData) throws JSONException {
+
         ArrayList<ArrayList<String>> entryList = new ArrayList<>();
         JSONArray dataList = new JSONArray(homeMemoirData);
         for (int i = 0; i < dataList.length(); i++) {
@@ -139,6 +140,7 @@ public class HomeFragment extends Fragment {
             entryList.add(entry);
         }
 
+        // sort memoir entries by rating
         entryList.sort(new Comparator<ArrayList<String>>() {
             @Override
             public int compare(ArrayList<String> o1, ArrayList<String> o2) {
