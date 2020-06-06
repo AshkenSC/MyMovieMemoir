@@ -33,15 +33,53 @@
                 android:textSize="13sp"
                 android:text="imdb id: 12345"/>
 
-            <RatingBar
-                android:id="@+id/memoir_rating_bar"
-                android:rating="3.0"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="80dp"
-                android:layout_height="19dp"
-                android:numStars="5"
-                android:isIndicator="true"
-                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="19dp"
+                    android:textSize="13sp"
+                    android:layout_marginRight="3dp"
+                    android:text="IMDb rating: "/>
+
+                <RatingBar
+                    android:id="@+id/memoir_public_rating_bar"
+                    android:rating="3.0"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="80dp"
+                    android:layout_height="19dp"
+                    android:numStars="5"
+                    android:isIndicator="true"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="19dp"
+                    android:textSize="13sp"
+                    android:layout_marginRight="3dp"
+                    android:text="My rating: "/>
+
+                <RatingBar
+                    android:id="@+id/memoir_user_rating_bar"
+                    android:rating="3.0"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="80dp"
+                    android:layout_height="19dp"
+                    android:numStars="5"
+                    android:isIndicator="true"
+                    />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/memoir_release_date"

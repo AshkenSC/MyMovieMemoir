@@ -216,8 +216,34 @@ public class MovieMemoirFragment extends Fragment{
         });
 
         // sort by user's rating
+        Button btnSortByUserRating = view.findViewById(R.id.memoir_user_sort);
+        btnSortByUserRating.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                // sort entries
+                List<MemoirEntry> sortedEntries = sortedEntriesByUserRating();
+                // remove all units from current recycler view
+                adapter.removeAllUnits();
+                // reload all units
+                adapter.addUnits(sortedEntries);
+            }
+        });
 
         // sort by public rating
+        Button btnSortByPublicRating = view.findViewById(R.id.memoir_public_sort);
+        btnSortByUserRating.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                // sort entries
+                List<MemoirEntry> sortedEntries = sortedEntriesByPublicRating();
+                // remove all units from current recycler view
+                adapter.removeAllUnits();
+                // reload all units
+                adapter.addUnits(sortedEntries);
+            }
+        });
 
 
         return view;
@@ -331,9 +357,52 @@ public class MovieMemoirFragment extends Fragment{
             }
         });
 
-        // keep a copy of sorted
+        // keep a copy of sorted entries
         List<MemoirEntry> sortedEntries = (List<MemoirEntry>) memoirEntries.clone();
         return sortedEntries;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private List<MemoirEntry> sortedEntriesByUserRating() {
+        memoirEntries.sort(new Comparator<MemoirEntry>() {
+            @Override
+            public int compare(MemoirEntry o1, MemoirEntry o2) {
+                if (o1.getUserRating() > o2.getUserRating()) {
+                    return -1;
+                }
+                else if (o1.getUserRating() < o2.getUserRating()) {
+                    return 1;
+                }
+                else {
+                    return 0;
+                }
+            }
+        });
+
+        // keep a copy of sorted entries
+        List<MemoirEntry> sortedEntries = (List<MemoirEntry>) memoirEntries.clone();
+        return sortedEntries;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    List<MemoirEntry> sortedEntriesByPublicRating() {
+        memoirEntries.sort(new Comparator<MemoirEntry>() {
+            @Override
+            public int compare(MemoirEntry o1, MemoirEntry o2) {
+                if(o1.getImdbRating() > o2.getImdbRating()) {
+                    return -1;
+                }
+                else if(o1.getImdbRating() < o2.getImdbRating()) {
+                    return 1;
+                }
+                else {
+                    return 0;
+                }
+            }
+        });
+
+        // keep a copy of sorted entries
+        List<MemoirEntry> sortedEntries = (List<MemoirEntry>) memoirEntries.clone();
+        return sortedEntries;
+    }
 }

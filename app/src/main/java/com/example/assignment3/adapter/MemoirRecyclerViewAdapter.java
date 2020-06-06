@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.assignment3.R;
 import com.example.assignment3.model.MemoirEntry;
-import com.example.assignment3.model.MemoirEntry;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -40,7 +39,8 @@ public class MemoirRecyclerViewAdapter extends RecyclerView.Adapter
         public TextView cinemaPostcodeView;
         public TextView commentTextView;
         public ImageView movieImageView;
-        public RatingBar memoirRatingBar;
+        public RatingBar userRatingBar;
+        public RatingBar publicRatingBar;
 
         // a constructor that accepts the entire View (itemView)
         // provides a reference and access to all the views in each row
@@ -53,7 +53,8 @@ public class MemoirRecyclerViewAdapter extends RecyclerView.Adapter
             cinemaPostcodeView = itemView.findViewById(R.id.memoir_cinema_postcode);
             commentTextView = itemView.findViewById(R.id.memoir_comment);
             movieImageView = itemView.findViewById(R.id.memoir_image);
-            memoirRatingBar = itemView.findViewById(R.id.memoir_rating_bar);
+            userRatingBar = itemView.findViewById(R.id.memoir_user_rating_bar);
+            publicRatingBar = itemView.findViewById(R.id.memoir_public_rating_bar);
         }
     }
 
@@ -121,8 +122,11 @@ public class MemoirRecyclerViewAdapter extends RecyclerView.Adapter
         ImageView imageView = viewHolder.movieImageView;
         Picasso.get().load(entry.getImageURL()).into(imageView);
 
-        RatingBar ratingBar = viewHolder.memoirRatingBar;
-        ratingBar.setRating((float)(entry.getUserRating() / 20.0));
+        RatingBar userRatingBar = viewHolder.userRatingBar;
+        userRatingBar.setRating((float)(entry.getUserRating() / 20.0));
+
+        RatingBar publicRatingBar = viewHolder.publicRatingBar;
+        publicRatingBar.setRating((float)(entry.getImdbRating()));
 
     }
 }
