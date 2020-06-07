@@ -45,6 +45,7 @@ public class ReportFragment extends Fragment {
     // data string and JSON object
     String reportMemoirData;
     HashMap<String, Integer> filteredEntries = new HashMap<>();
+    PieDataSet dataSet;
 
     public ReportFragment(int userId) {
         this.userId = userId;
@@ -63,6 +64,27 @@ public class ReportFragment extends Fragment {
         // from date and to date text view
         tvFrom = view.findViewById(R.id.pie_from_date);
         tvTo = view.findViewById(R.id.pie_to_date);
+
+        // load data
+        loadData();
+
+        // set up colors
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+        loadColors(colors);
+        dataSet.setColors(colors);
+
+        // assign colors to entries in pie chart
+        PieData pieData = new PieData(dataSet);
+        pieData.setDrawValues(true);
+
+        pieChart.setUsePercentValues(true);     // set percentage display
+        pieChart.setData(pieData);
+        pieChart.invalidate();
+
+        return view;
+    }
+
+    private void loadData() {
 
         // get some default display data from 2020.01.01 to 2020.05.30
         LoadMemoirData loadMemoirData = new LoadMemoirData();
@@ -91,22 +113,7 @@ public class ReportFragment extends Fragment {
         }
 
         // load entries defined above into data set
-        PieDataSet dataSet = new PieDataSet(pieEntries,"Label");
-
-        // set up colors
-        ArrayList<Integer> colors = new ArrayList<Integer>();
-        loadColors(colors);
-        dataSet.setColors(colors);
-
-        // assign colors to entries in pie chart
-        PieData pieData = new PieData(dataSet);
-        pieData.setDrawValues(true);
-
-        pieChart.setUsePercentValues(true);     // set percentage display
-        pieChart.setData(pieData);
-        pieChart.invalidate();
-
-        return view;
+        dataSet = new PieDataSet(pieEntries,"Label");
     }
 
     private HashMap<String, Integer> filterEntries(String reportMemoirData, String dateFrom, String dateTo) throws JSONException {
