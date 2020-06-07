@@ -1,6 +1,7 @@
 package com.example.assignment3;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.assignment3.networkconnection.NetworkConnection;
 import com.github.mikephil.charting.charts.PieChart;
@@ -22,10 +25,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -43,7 +43,7 @@ public class ReportFragment extends Fragment {
     TextView tvFrom;
     Button btnTo;
     TextView tvTo;
-    Button btnGoToBarGraph;
+    Button btnGoToBarChart;
     PieChart pieChart;
 
     // data string and JSON object
@@ -69,7 +69,7 @@ public class ReportFragment extends Fragment {
         tvFrom = view.findViewById(R.id.pie_from_date);
         tvTo = view.findViewById(R.id.pie_to_date);
         // buttons
-        btnGoToBarGraph = view.findViewById(R.id.goto_bar_graph);
+        btnGoToBarChart = view.findViewById(R.id.goto_bar_chart);
         btnFrom = view.findViewById(R.id.pie_from_button);
         btnTo = view.findViewById(R.id.pie_to_button);
 
@@ -101,7 +101,7 @@ public class ReportFragment extends Fragment {
                                 Integer i = fromStr.compareTo(toStr);
                                 if(i < 0) {
                                     tvFrom.setText(fromStr);
-                                    loadData();
+                                    reloadChart();
                                 }
                                 else {
                                     Toast.makeText(getActivity(),"\"From\" date must be earlier than \"To\"" ,Toast.LENGTH_LONG).show();
@@ -141,7 +141,7 @@ public class ReportFragment extends Fragment {
                                 Integer i = fromStr.compareTo(toStr);
                                 if(i < 0) {
                                     tvFrom.setText(toStr);
-                                    loadData();
+                                    reloadChart();
                                 }
                                 else {
                                     Toast.makeText(getActivity(),"\"From\" date must be earlier than \"To\"" ,Toast.LENGTH_LONG).show();
@@ -153,13 +153,30 @@ public class ReportFragment extends Fragment {
             }
         });
 
+        // switch button
+        btnGoToBarChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startToFragment(getActivity(), R.id.content_frame, new ReportFragmentBar(userId));
+            }
+        });
+
         // load data
-        loadData();
+        reloadChart();
 
         return view;
     }
 
-    private void loadData() {
+    // fragment stack, used for press back button to return to previous fragment
+    public void startToFragment(Context context, int container, Fragment newFragment) {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(container, newFragment);
+        transaction.addToBackStack(context.getClass().getName());
+        transaction.commit();
+    }
+
+    private void reloadChart() {
 
         // get some default display data from 2020.01.01 to 2020.05.30
         LoadMemoirData loadMemoirData = new LoadMemoirData();
@@ -184,11 +201,11 @@ public class ReportFragment extends Fragment {
         // load data into pie chart
         List<PieEntry> pieEntries = new ArrayList<>();
         for (String key : filteredEntries.keySet()) {
-            pieEntries.add(new PieEntry(filteredEntries.get(key),key));
+            pieEntries.add(new PieEntry(filteredEntries.get(key), key));
         }
 
         // load entries defined above into data set
-        dataSet = new PieDataSet(pieEntries,"Label");
+        dataSet = new PieDataSet(pieEntries,"Postcode");
 
         // set up colors
         ArrayList<Integer> colors = new ArrayList<Integer>();
@@ -200,6 +217,7 @@ public class ReportFragment extends Fragment {
         pieData.setDrawValues(true);
 
         pieChart.setUsePercentValues(true);     // set percentage display
+        pieChart.animate();                     // set animation
         pieChart.setData(pieData);
         pieChart.invalidate();
     }

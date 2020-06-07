@@ -4,15 +4,13 @@
     <string name="button_set_course">SET COURSE</string>
     <string name="RememberPassword">Remember password</string>
 
-    <string-array name="genre_array">r
-        <item>Action</item>
-        <item>Comedy</item>
-        <item>Sci-fi</item>
-        <item>Horror</item>
-        <item>Romance</item>
-        <item>Thriller</item>
-        <item>Crime</item>
-        <item>Animation</item>
+    <string-array name="year_array">r
+        <item>2020</item>
+        <item>2019</item>
+        <item>2018</item>
+        <item>2017</item>
+        <item>2016</item>
+        <item>2015</item>
     </string-array>
 
     <string name="Open">open</string>

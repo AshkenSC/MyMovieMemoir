@@ -74,7 +74,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter
         tvMovieName.setText(entry.getMovieName());
 
         TextView tvReleaseDate = viewHolder.releaseDateTextView;
-        tvReleaseDate.setText(entry.getReleaseDate());
+        tvReleaseDate.setText("Released on: " + entry.getReleaseDate());
 
         RatingBar ratingBar = viewHolder.ratingBarView;
         ratingBar.setRating((float)entry.getRating());

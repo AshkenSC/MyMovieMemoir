@@ -193,7 +193,7 @@ public class AddToMemoirFragment extends Fragment {
         protected void onPostExecute(String message) {
             if(message == "") {
                 Toast.makeText(getActivity(), "The entry has been successfully uploaded.", Toast.LENGTH_LONG).show();
-                startToFragment(getActivity(), R.id.content_frame, new WatchlistFragment(userId));
+                startToFragment(getActivity(), R.id.content_frame, new MovieMemoirFragment(userId));
             }
             else {
                 Toast.makeText(getActivity(), "An error occurred. Upload failed.", Toast.LENGTH_LONG).show();
