@@ -1,13 +1,15 @@
 package com.example.assignment3;
 
+import android.app.DatePickerDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.FileObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -19,9 +21,11 @@ import com.github.mikephil.charting.data.PieEntry;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -39,7 +43,7 @@ public class ReportFragment extends Fragment {
     TextView tvFrom;
     Button btnTo;
     TextView tvTo;
-    Button btnGoToBarChart;
+    Button btnGoToBarGraph;
     PieChart pieChart;
 
     // data string and JSON object
@@ -64,22 +68,93 @@ public class ReportFragment extends Fragment {
         // from date and to date text view
         tvFrom = view.findViewById(R.id.pie_from_date);
         tvTo = view.findViewById(R.id.pie_to_date);
+        // buttons
+        btnGoToBarGraph = view.findViewById(R.id.goto_bar_graph);
+        btnFrom = view.findViewById(R.id.pie_from_button);
+        btnTo = view.findViewById(R.id.pie_to_button);
+
+        // from button
+        btnFrom.setOnClickListener(new View.OnClickListener() {
+            //@RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                //  date numbers of "From"
+                int year = 2020, month = 5, day = 1;
+                // get "To" date
+                final String toStr = tvTo.getText().toString();
+
+                // date picker dialog
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                        DatePickerDialog.THEME_DEVICE_DEFAULT_LIGHT,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int day) {
+                                // 如果from大于to，则报错
+                                String yearStr = String.valueOf(year);
+                                String monthStr = String.valueOf(month + 1);
+                                if(month < 10) monthStr = "0" + monthStr;
+                                String dayStr = String.valueOf(day);
+                                if(day < 10) dayStr = "0" + dayStr;
+
+                                String fromStr = yearStr + "-" + monthStr + "-" + dayStr;
+
+                                Integer i = fromStr.compareTo(toStr);
+                                if(i < 0) {
+                                    tvFrom.setText(fromStr);
+                                    loadData();
+                                }
+                                else {
+                                    Toast.makeText(getActivity(),"\"From\" date must be earlier than \"To\"" ,Toast.LENGTH_LONG).show();
+                                }
+
+                            }
+                        }, year, month, day);
+                datePickerDialog.show();
+            }
+        });
+
+        // to button
+        btnTo.setOnClickListener(new View.OnClickListener() {
+            //@RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                //  date numbers of "From"
+                int year = 2020, month = 5, day = 1;
+                // get "From" date
+                final String fromStr = tvFrom.getText().toString();
+
+                // date picker dialog
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                        DatePickerDialog.THEME_DEVICE_DEFAULT_LIGHT,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int day) {
+                                // 如果from大于to，则报错
+                                String yearStr = String.valueOf(year);
+                                String monthStr = String.valueOf(month + 1);
+                                if(month < 10) monthStr = "0" + monthStr;
+                                String dayStr = String.valueOf(day);
+                                if(day < 10) dayStr = "0" + dayStr;;
+
+                                String toStr = yearStr + "-" + monthStr + "-" + dayStr;
+
+                                Integer i = fromStr.compareTo(toStr);
+                                if(i < 0) {
+                                    tvFrom.setText(toStr);
+                                    loadData();
+                                }
+                                else {
+                                    Toast.makeText(getActivity(),"\"From\" date must be earlier than \"To\"" ,Toast.LENGTH_LONG).show();
+                                }
+
+                            }
+                        }, year, month, day);
+                datePickerDialog.show();
+            }
+        });
 
         // load data
         loadData();
-
-        // set up colors
-        ArrayList<Integer> colors = new ArrayList<Integer>();
-        loadColors(colors);
-        dataSet.setColors(colors);
-
-        // assign colors to entries in pie chart
-        PieData pieData = new PieData(dataSet);
-        pieData.setDrawValues(true);
-
-        pieChart.setUsePercentValues(true);     // set percentage display
-        pieChart.setData(pieData);
-        pieChart.invalidate();
 
         return view;
     }
@@ -114,6 +189,19 @@ public class ReportFragment extends Fragment {
 
         // load entries defined above into data set
         dataSet = new PieDataSet(pieEntries,"Label");
+
+        // set up colors
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+        loadColors(colors);
+        dataSet.setColors(colors);
+
+        // assign colors to entries in pie chart
+        PieData pieData = new PieData(dataSet);
+        pieData.setDrawValues(true);
+
+        pieChart.setUsePercentValues(true);     // set percentage display
+        pieChart.setData(pieData);
+        pieChart.invalidate();
     }
 
     private HashMap<String, Integer> filterEntries(String reportMemoirData, String dateFrom, String dateTo) throws JSONException {
