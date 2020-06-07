@@ -6,4 +6,13 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="colorDisabledBtn">#abb5bf</color>
     <color name="colorWhite">#ffffff</color>
+    <color name="colorOrange">#ff4500</color>
+    <color name="colorMintGreen">#10c891</color>
+    <color name="colorNavyBlue">#2859b8</color>
+    <color name="colorPink">#f0a6bc</color>
+    <color name="colorGray">#ababab</color>
+    <color name="colorYellow">#f0e60d</color>
+    <color name="colorRed">#ee0c18</color>
+    <color name="colorGreen">#0fab19</color>
+    <color name="colorPurple">#7b15b4</color>
 </resources>

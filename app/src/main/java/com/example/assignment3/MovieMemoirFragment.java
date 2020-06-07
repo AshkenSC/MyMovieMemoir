@@ -65,6 +65,7 @@ public class MovieMemoirFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the View for this fragment
         view = inflater.inflate(R.layout.movie_memoir_fragment, container, false);
+        // build network connection
         networkConnection = new NetworkConnection();
 
         // load memoir entries
@@ -96,7 +97,6 @@ public class MovieMemoirFragment extends Fragment{
 
             String movieName = "";
             String imdbId = "";
-            float imdbRaing = 0;
             String watchDate = "";
             String cinemaPostcode = "";
             String comment = "";
