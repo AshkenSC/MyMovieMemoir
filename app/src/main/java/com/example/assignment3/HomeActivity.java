@@ -122,7 +122,7 @@ public class HomeActivity extends AppCompatActivity implements
                 replaceFragment(new ReportFragment(userId));
                 break;
             case R.id.menu_map:
-                replaceFragment(new ReportFragment(userId));
+                replaceFragment(new MapFragment(userId, firstName));
                 break;
         }
         //this code closes the drawer after you selected an item from the menu,

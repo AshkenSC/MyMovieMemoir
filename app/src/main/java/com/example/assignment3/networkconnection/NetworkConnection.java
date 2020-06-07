@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -404,6 +405,10 @@ public class NetworkConnection {
             e.printStackTrace();
         }
 
+        // deal with empty comment case, to make sure data can be correctly parsed
+        String comment = sourceData.get(1).get("comment");
+        if(comment == "") comment = " ";
+
         // upload memoir entry data
         Memoir memoir = new Memoir(
                 memoirId,
@@ -411,7 +416,7 @@ public class NetworkConnection {
                 DateTimeFormat.dateFormatConvert(sourceData.get(1).get("movieReleaseDate")),
                 sourceData.get(1).get("watchDate"),
                 sourceData.get(1).get("watchTime"),
-                sourceData.get(1).get("comment")+";;;lll;;;"+sourceData.get(1).get("cinemaPostcode")+";;;lll;;;"+sourceData.get(1).get("imdbId"),
+                comment +";;;lll;;;"+sourceData.get(1).get("cinemaPostcode")+";;;lll;;;"+sourceData.get(1).get("imdbId"),
                 (int)(Float.parseFloat(sourceData.get(1).get("score"))*10.0),
                 person,
                 new Memoir.Cinema(cinemaId, sourceData.get(1).get("imdbId"), sourceData.get(1).get("cinemaPostcode")),
@@ -439,4 +444,30 @@ public class NetworkConnection {
         return strResponse;
     }
 
+    public String getCoordinate(Integer userId) throws UnsupportedEncodingException {
+
+        // load user's address
+        Person person = getPerson(userId);
+        String userLocation = person.getAddress() + " " + person.getStateName() + " " + person.getPostcode();
+
+        String userLocationURL = URLEncoder.encode(userLocation, "UTF-8");
+
+        Request request = new Request.Builder()
+                .url("https://geocode-address-to-location.p.rapidapi.com/v1/geocode/search?limit=1&lang=en&text=" +
+                        userLocationURL)
+                .get()
+                .addHeader("x-rapidapi-host", "geocode-address-to-location.p.rapidapi.com")
+                .addHeader("x-rapidapi-key", "e524238e00msh82ec894551f7e7cp1b7de0jsn58a5c160ad7e")
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            results = response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return results;
+
+    }
 }

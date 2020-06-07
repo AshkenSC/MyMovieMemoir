@@ -209,10 +209,3 @@ public class AddToMemoirFragment extends Fragment {
         transaction.commit();
     }
 }
-
-/*
-
-{"cinemaId":{"cinemaId":4,"cinemaLocation":"Australia","cinemaName":"tt9590742","cinemaPostcode":"8007"},"cinemaPostcode":"8007","comment":"ok;;;lll;;;8007;;;lll;;;tt9590742","imdbId":"tt9590742","memoirId":7,"movieName":"Return to Zootopia","movieReleaseDate":"2017-10-01T00:00:00+08:00","personId":{"address":"Long Street, Wuhu","dob":"1998-01-27","firstName":"Ashken","gender":"Male","personId":1,"postcode":"8002","stateName":"Anhui","surname":"Bear"},"score":40,"watchDate":"2020-06-05T00:00:00+08:00","watchTime":"1970-01-01T22:14:00"}
-
-{"cinemaId":{"cinemaId":12,"cinemaLocation":"Australia","cinemaName":"tt2380307","cinemaPostcode":"8007"},"cinemaPostcode":"8007","comment":"ok;;;lll;;;8007;;;lll;;;tt2380307","imdbId":"tt2380307","memoirId":7,"movieName":"Coco","movieReleaseDate":"2017-11-22T00:00:00+08:00","personId":{"address":"Long Street, Wuhu","dob":"1998-01-27T00:00:00+08:00","firstName":"Ashken","gender":"Male","personId":1,"postcode":"8002","stateName":"Anhui","surname":"Bear"},"score":30,"watchDate":"2020-06-05T00:00:00+08:00","watchTime":"1970-01-01T22:52:00"}
- */

@@ -9,7 +9,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:text="Input your account info\nYou must fill in entries with *"
+            android:text="Input your account info\nRequired fields *"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
