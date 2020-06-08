@@ -7,6 +7,7 @@ import com.example.assignment3.Person;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -14,8 +15,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -444,14 +449,18 @@ public class NetworkConnection {
         return strResponse;
     }
 
-    public String getCoordinate(Integer userId) throws UnsupportedEncodingException {
+    public HashMap<String, String> getCoordinate(Integer userId) throws UnsupportedEncodingException, JSONException {
 
-        // load user's address
+        // used to store cinema-coordinate pair
+        // user location is also stored here whose key value is "user"
+        HashMap<String, String> cinemaCoordPair = new HashMap<>();
+        // Cinema location set. Using set can reduce query times
+        HashSet<String> cinemaSet = new HashSet<>();
+
+        /* load user's address */
         Person person = getPerson(userId);
-        String userLocation = person.getAddress() + " " + person.getStateName() + " " + person.getPostcode();
-
+        String userLocation = person.getAddress() + " " + person.getStateName();// + " " + person.getPostcode();
         String userLocationURL = URLEncoder.encode(userLocation, "UTF-8");
-
         Request request = new Request.Builder()
                 .url("https://geocode-address-to-location.p.rapidapi.com/v1/geocode/search?limit=1&lang=en&text=" +
                         userLocationURL)
@@ -459,15 +468,67 @@ public class NetworkConnection {
                 .addHeader("x-rapidapi-host", "geocode-address-to-location.p.rapidapi.com")
                 .addHeader("x-rapidapi-key", "e524238e00msh82ec894551f7e7cp1b7de0jsn58a5c160ad7e")
                 .build();
-
         try {
             Response response = client.newCall(request).execute();
             results = response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        String userCoord = getLatLng(results);
+        // add user data into hashmap
+        cinemaCoordPair.put("user", userCoord);
 
-        return results;
 
+        /* load cinema location */
+        String memoirSourceData = getMemoirData(userId);
+        // parse source data
+        JSONArray memoirEntries = new JSONArray(memoirSourceData);
+        for(int i = 0; i < memoirEntries.length(); i++) {
+            JSONObject entry = (JSONObject) memoirEntries.get(i);
+            String cinemaName = entry.getJSONObject("cinemaId").getString("cinemaName");
+            String cinemaLocation = entry.getJSONObject("cinemaId").getString("cinemaLocation");
+            String cinemaPostcode = entry.getJSONObject("cinemaId").getString("cinemaPostcode");
+            String cinemaAddress = cinemaName + " " + cinemaLocation + " " + cinemaPostcode;
+            // add cinema address into set
+            cinemaSet.add(cinemaAddress);
+        }
+
+        // geocode cinemas
+        for(String entry : cinemaSet) {
+            String cinemaLocationURL = URLEncoder.encode(entry, "UTF-8");
+            // get source data from API
+            request = new Request.Builder()
+                    .url("https://geocode-address-to-location.p.rapidapi.com/v1/geocode/search?limit=1&lang=en&text=" +
+                            cinemaLocationURL)
+                    .get()
+                    .addHeader("x-rapidapi-host", "geocode-address-to-location.p.rapidapi.com")
+                    .addHeader("x-rapidapi-key", "e524238e00msh82ec894551f7e7cp1b7de0jsn58a5c160ad7e")
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                results = response.body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // parse and get LatLng
+            String cinemaCoord = getLatLng(results);
+
+            cinemaCoordPair.put(entry, cinemaCoord);
+        }
+
+        return cinemaCoordPair;
+    }
+
+    // get LatLng coord from source data
+    private String getLatLng(String sourceData) throws JSONException {
+        String longtitude = null;
+        String latitude = null;
+
+        JSONObject jsonObject = new JSONObject(sourceData);
+        JSONObject feature = (JSONObject) jsonObject.getJSONArray("features").get(0);
+        longtitude = feature.getJSONObject("properties").getString("lon");
+        latitude = feature.getJSONObject("properties").getString("lat");
+
+        return latitude + ", " + longtitude;
     }
 }

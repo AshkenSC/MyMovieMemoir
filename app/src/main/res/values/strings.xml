@@ -18,4 +18,6 @@
     <string name="title_activity_maps_fragment">MyMovieMemoirMap</string>
     <string name="title_activity_google_maps">Map</string>
 
+    <string name="facebook_app_id">713014706127207</string>
+
 </resources>

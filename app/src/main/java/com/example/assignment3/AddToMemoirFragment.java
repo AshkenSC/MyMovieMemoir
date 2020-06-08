@@ -130,9 +130,9 @@ public class AddToMemoirFragment extends Fragment {
                  memoirData.put("imdbId", tvImdbId.getText().toString());
                  memoirData.put("cinemaPostcode", cinemaPostcode.getText().toString());
 
-                 cinemaData.put("cinemaName", tvImdbId.getText().toString());
-                 cinemaData.put("cinemaLocation", "Australia");
-                 cinemaData.put("cinemaPostcode", cinemaPostcode.getText().toString());
+                 cinemaData.put("cinemaName", "Village Cinemas");
+                 cinemaData.put("cinemaLocation", "1239 Nepean Hwy, Cheltenham VIC");
+                 cinemaData.put("cinemaPostcode", "3192");
 
                  // put cinema and memoir data into a list
                  List<Map<String, String>> cinemaAndMemoir = new ArrayList<>();

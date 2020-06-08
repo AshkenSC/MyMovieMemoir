@@ -2,6 +2,7 @@ package com.example.assignment3;
 
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.camera2.CaptureRequest;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 public class MapFragment extends Fragment {
@@ -32,12 +35,13 @@ public class MapFragment extends Fragment {
     // user id in database
     int userId;
     String firstName;
-    // user coord
-    String userCoord;
 
     // buttons
     Button btnLoadMap;
     Button btnReturn;
+
+    // cinema-geocode map
+    HashMap<String, String> dataPair;
 
     public MapFragment(int userId, String firstName) {
         this.userId = userId;
@@ -56,7 +60,7 @@ public class MapFragment extends Fragment {
         GetCoord getCoord = new GetCoord();
         getCoord.execute(userId);
         try {
-            userCoord = getCoord.get();
+            dataPair = getCoord.get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -69,8 +73,24 @@ public class MapFragment extends Fragment {
                 // load google map
                 Intent intent = new Intent(getActivity(), GoogleMapsActivity.class);
                 // pass data
-                intent.putExtra("userCoord", userCoord);
-                Log.i(" userCoord ", userCoord);
+                ArrayList<String> cinemaName = new ArrayList<>();
+                ArrayList<String> cinemaLatLng = new ArrayList<>();
+                for(String key : dataPair.keySet()) {
+                    if(key == "user")
+                        continue;
+                    cinemaName.add(key);
+                    cinemaLatLng.add(dataPair.get(key));
+                }
+                // load user data
+                intent.putExtra("userCoord", dataPair.get("user"));
+                //Log.i(" userCoord ", dataPair.get("user"));
+                // remove user data from dataPair
+
+                // load cinema data
+                // cinema names and coords are stored seperately
+                intent.putStringArrayListExtra("cinemaName", cinemaName);
+                intent.putExtra("cinemaLatLng", cinemaLatLng);
+
                 // load activity
                 startActivity(intent);
             }
@@ -88,37 +108,39 @@ public class MapFragment extends Fragment {
         return view;
     }
 
-    private class GetCoord extends AsyncTask<Integer, Void, String> {
+    private class GetCoord extends AsyncTask<Integer, Void, HashMap<String, String>> {
         @Override
-        protected String doInBackground(Integer... userId) {
+        protected HashMap<String, String> doInBackground(Integer... userId) {
 
-            String sourceData = "";
-            String longtitude = null;
-            String latitude = null;
+            HashMap<String, String> cinemaCoordPair = new HashMap<>();
 
             try {
-                sourceData = networkConnection.getCoordinate(userId[0]);
-            } catch (UnsupportedEncodingException e) {
+                cinemaCoordPair = networkConnection.getCoordinate(userId[0]);
+            } catch (UnsupportedEncodingException | JSONException e) {
                 e.printStackTrace();
             }
 
-            try {
-                JSONObject jsonObject = new JSONObject(sourceData);
-                JSONObject feature = (JSONObject) jsonObject.getJSONArray("features").get(0);
-                longtitude = feature.getJSONObject("properties").getString("lon");
-                latitude = feature.getJSONObject("properties").getString("lat");
+            return cinemaCoordPair;
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return latitude + ", " + longtitude;
         }
 
         @Override
-        protected void onPostExecute(String results) {
-            userCoord = results;
+        protected void onPostExecute(HashMap<String, String> results) {
+            dataPair = results;
         }
+    }
+
+    // get LatLng coord from source data
+    private String getLatLng(String sourceData) throws JSONException {
+        String longtitude = null;
+        String latitude = null;
+
+        JSONObject jsonObject = new JSONObject(sourceData);
+        JSONObject feature = (JSONObject) jsonObject.getJSONArray("features").get(0);
+        longtitude = feature.getJSONObject("properties").getString("lon");
+        latitude = feature.getJSONObject("properties").getString("lat");
+
+        return latitude + ", " + longtitude;
     }
 
     // fragment stack, used for press back button to return to previous fragment

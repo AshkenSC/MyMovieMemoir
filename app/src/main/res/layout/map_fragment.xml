@@ -15,9 +15,10 @@
         android:background="@color/colorPrimary"
         android:textColor="@color/colorWhite"
         android:layout_gravity="center"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="120dp"
         android:layout_marginBottom="30dp"
-        android:text="load map"
+        android:text="Load map"
+        android:textAllCaps="false"
         />
 
     <Button
@@ -27,7 +28,9 @@
         android:background="@color/colorPrimary"
         android:textColor="@color/colorWhite"
         android:layout_gravity="center"
-        android:text="return"
+        android:text="Return"
+        android:textAllCaps="false"
         />
+
 
 </LinearLayout>

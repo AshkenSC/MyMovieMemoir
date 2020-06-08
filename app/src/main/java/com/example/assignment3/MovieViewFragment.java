@@ -2,6 +2,9 @@ package com.example.assignment3;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,11 +27,19 @@ import com.example.assignment3.adapter.RecyclerViewAdapter;
 import com.example.assignment3.localDB.entity.WatchlistEntry;
 import com.example.assignment3.model.HomeMemoirEntry;
 import com.example.assignment3.networkconnection.NetworkConnection;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -48,6 +59,13 @@ public class MovieViewFragment extends Fragment {
 
     // whether current entry exists in db
     boolean isExisted;
+
+    // variables for facebook
+    private CallbackManager callbackManager;
+    private ShareDialog shareDialog;
+    String imageURL;
+    String movieTitle;
+    String movieReleaseDate;
 
     // declare RecyclerView
     private RecyclerView recyclerView;
@@ -75,15 +93,17 @@ public class MovieViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the View for this fragment
         view = inflater.inflate(R.layout.movie_view_fragment, container, false);
-
         // network connection
         networkConnection = new NetworkConnection();
+        // initialize facebook
+        initFacebook();
 
         /* load data into view */
         GetMovieDetail getMovieDetail = new GetMovieDetail();
         getMovieDetail.execute(imdbId);
 
         /* set buttons */
+        // add to Watchlist
         final Button btnAddToWatchList = view.findViewById(R.id.view_add_to_watchlist);
         // if current movie is already in the list, disable this button
         CheckExistance checkExistance = new CheckExistance();
@@ -115,16 +135,84 @@ public class MovieViewFragment extends Fragment {
                 }
             } });
 
-        Button addToMemoir = view.findViewById(R.id.view_add_to_memoir);
-        addToMemoir.setOnClickListener(new View.OnClickListener() {
+        // add to Memoir
+        Button btnAddToMemoir = view.findViewById(R.id.view_add_to_memoir);
+        btnAddToMemoir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startToFragment(getActivity(), R.id.content_frame,
                         new AddToMemoirFragment(userId, imdbId));
             } });
 
+        // Share on Facebook
+        Button btnShareFacebook = view.findViewById(R.id.view_facebook_share);
+        btnShareFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareToFacebook(view);
+            }
+        });
+
+
         return view;
     }
+
+    private void initFacebook() {
+        callbackManager = CallbackManager.Factory.create();
+        shareDialog = new ShareDialog(this);
+        // this part is optional
+        shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+
+            @Override
+            public void onSuccess(Sharer.Result result) {
+                // successful sharing callback
+                Toast.makeText(getActivity(), "Sharing succeeded!", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //facebook interface callback
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * share on facebook
+     * if facebook is not installed, jump to the browser
+     *
+     * @param view
+     */
+    public void shareToFacebook(View view) {
+        // more config: https://developers.facebook.com/docs/sharing/android
+
+        String quoteMessage = "Check out this fantastic film: " + movieTitle
+                + " (" + movieReleaseDate + ") -- MyMovieMemoir App";
+
+        if (ShareDialog.canShow(ShareLinkContent.class)) {
+            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                    .setQuote(quoteMessage)
+                    .setContentUrl(Uri.parse(imageURL))
+                    .build();
+            shareDialog.show(linkContent);
+        }
+    }
+
+
+
+
 
     private class GetMovieDetail extends AsyncTask<String, Void, String> {
         @Override
@@ -142,6 +230,9 @@ public class MovieViewFragment extends Fragment {
 
             TextView tvTitile = view.findViewById(R.id.view_name);
             try {
+                // store movie title
+                movieTitle = entryJSONObject.getString("Title");
+
                 tvTitile.setText(entryJSONObject.getString("Title"));
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -149,6 +240,9 @@ public class MovieViewFragment extends Fragment {
 
             TextView tvReleaseDate = view.findViewById(R.id.view_release_date);
             try {
+                // store release date
+                movieReleaseDate = entryJSONObject.getString("Released");
+
                 tvReleaseDate.setText(entryJSONObject.getString("Released"));
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -166,6 +260,9 @@ public class MovieViewFragment extends Fragment {
 
             ImageView image = view.findViewById(R.id.view_image);
             try {
+                // store image URL
+                imageURL = entryJSONObject.getString("Poster");
+
                 Picasso.get().load(entryJSONObject.getString("Poster")).into(image);
             } catch (JSONException e) {
                 e.printStackTrace();
