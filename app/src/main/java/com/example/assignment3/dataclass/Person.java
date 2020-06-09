@@ -1,4 +1,4 @@
-package com.example.assignment3;
+package com.example.assignment3.dataclass;
 
 public class Person {
     private int personId;

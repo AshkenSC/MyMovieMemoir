@@ -210,10 +210,6 @@ public class MovieViewFragment extends Fragment {
         }
     }
 
-
-
-
-
     private class GetMovieDetail extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... imdbId) {

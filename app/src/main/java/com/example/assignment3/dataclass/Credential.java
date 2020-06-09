@@ -1,8 +1,4 @@
-package com.example.assignment3;
-
-import com.example.assignment3.Person;
-
-import java.sql.Date;
+package com.example.assignment3.dataclass;
 
 public class Credential {
     private int credentialId;

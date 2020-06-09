@@ -13,15 +13,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.example.assignment3.localDB.database.WatchlistEntryDatabase;
 import com.example.assignment3.networkconnection.NetworkConnection;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class HomeActivity extends AppCompatActivity implements
@@ -40,14 +36,6 @@ public class HomeActivity extends AppCompatActivity implements
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
-
-    // declare list view
-    List<HashMap<String, String>> unitListArray;
-    HashMap<String,String> map = new HashMap<String,String>();
-    SimpleAdapter myListAdapter;
-    ListView unitList;
-    String[] colHEAD = new String[] {"NAME","RELEASE DATE","SCORE"};
-    int[] dataCell = new int[] {R.id.home_movie_name,R.id.home_release_date,R.id.score};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,5 +168,4 @@ public class HomeActivity extends AppCompatActivity implements
             getSupportFragmentManager().popBackStack();
         }
     }
-
 }

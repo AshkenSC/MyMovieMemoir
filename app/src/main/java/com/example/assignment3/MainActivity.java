@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 
 import com.example.assignment3.networkconnection.NetworkConnection;
+import com.example.assignment3.util.SHA;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             // hash input password
             String hashedInputPassword = null;
             try {
-                hashedInputPassword = sha.SHA1(inputAndQueryPasswords[0]);
+                hashedInputPassword = SHA.sha1(inputAndQueryPasswords[0]);
             } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

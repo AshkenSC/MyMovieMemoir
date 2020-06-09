@@ -1,9 +1,9 @@
 package com.example.assignment3.networkconnection;
 
-import com.example.assignment3.Credential;
-import com.example.assignment3.DateTimeFormat;
-import com.example.assignment3.Memoir;
-import com.example.assignment3.Person;
+import com.example.assignment3.dataclass.Credential;
+import com.example.assignment3.util.DateTimeFormat;
+import com.example.assignment3.dataclass.Memoir;
+import com.example.assignment3.dataclass.Person;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -17,10 +17,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;

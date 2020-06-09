@@ -1,8 +1,4 @@
-package com.example.assignment3;
-
-import com.example.assignment3.model.MemoirEntry;
-
-import java.util.List;
+package com.example.assignment3.dataclass;
 
 public class Memoir {
     private int memoirId;

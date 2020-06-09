@@ -13,6 +13,8 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.assignment3.networkconnection.NetworkConnection;
+import com.example.assignment3.util.DateTimeFormat;
+import com.example.assignment3.util.SHA;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -49,7 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
                 final String usernameStr = username.getText().toString();
                 String passwordStr = null;
                 try {
-                    passwordStr = sha.SHA1(password.getText().toString());
+                    passwordStr = SHA.sha1(password.getText().toString());
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
                 } catch (UnsupportedEncodingException e) {

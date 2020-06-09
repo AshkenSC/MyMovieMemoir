@@ -1,4 +1,4 @@
-package com.example.assignment3;
+package com.example.assignment3.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 
 // ref: https://stackoverflow.com/questions/5980658/how-to-sha1-hash-a-string-in-android
 
-public class sha {
+public class SHA {
     private static String convertToHex(byte[] data) {
         StringBuilder buf = new StringBuilder();
         for (byte b : data) {
@@ -23,7 +23,7 @@ public class sha {
         return buf.toString();
     }
 
-    public static String SHA1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    public static String sha1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest md = MessageDigest.getInstance("SHA-1");
         byte[] textBytes = text.getBytes("iso-8859-1");
         md.update(textBytes, 0, textBytes.length);
