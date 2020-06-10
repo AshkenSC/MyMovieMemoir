@@ -40,9 +40,6 @@ public class SignUpActivity extends AppCompatActivity {
         final DatePicker DoB = findViewById(R.id.date_Picker);
 
         final RadioGroup genderGroup = findViewById(R.id.gender_group);
-//        final RadioButton isFemale = findViewById(R.id.isFemale);
-//        final RadioButton isMale = findViewById(R.id.isMale);
-//        final RadioButton isOthers = findViewById(R.id.isOthers);
 
         // submit button
         Button submitBtn = findViewById(R.id.signup_submit);

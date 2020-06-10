@@ -13,8 +13,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
             android:textSize="13sp" />
 
         <!--Linear layout: Account Input-->
@@ -22,15 +22,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="15dp"
             android:layout_marginRight="15dp">
 
             <TextView
                 android:layout_width="103dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginRight="0dp"
+                android:layout_marginEnd="28dp"
+                android:layout_marginRight="40dp"
                 android:text="Username*"
                 android:textSize="20sp"
                 />
@@ -72,7 +71,7 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             >
@@ -80,10 +79,13 @@
             <TextView
                 android:layout_width="106dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
+                android:layout_marginTop="-10dp"
+                android:text="Confirm\npassword*"
+                android:textSize="18sp"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="25dp"
-                android:text="Confirm password*"
-                android:textSize="12sp" />
+                android:layout_marginEnd="25dp" />
 
             <EditText
                 android:id="@+id/signup_confirm_password"
@@ -166,19 +168,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:checked="true"
-                android:text="Female" />
+                android:text="Female"
+                android:buttonTint="@color/colorPrimary"/>
 
             <RadioButton
                 android:id="@+id/isMale"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Male" />
+                android:text="Male"
+                android:buttonTint="@color/colorPrimary"/>
 
             <RadioButton
                 android:id="@+id/isOthers"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Others" />
+                android:text="Others"
+                android:buttonTint="@color/colorPrimary"/>
         </RadioGroup>
 
         <!--DoB input-->
@@ -204,10 +209,11 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginRight="0dp"
+                android:layout_marginRight="-10dp"
                 android:layout_marginBottom="10dp"
                 android:scaleX="1.0"
-                android:scaleY="1.0" />
+                android:scaleY="1.0"
+                android:foregroundTint="@color/colorPrimary"/>
 
         </LinearLayout>
 
@@ -293,7 +299,7 @@
             android:layout_width="200dp"
             android:layout_height="45dp"
             android:layout_gravity="center"
-            android:background="#03A9F4"
+            android:background="@color/colorPrimary"
             android:gravity="center"
             android:textColor="#FFFFF0"
             android:textSize="20sp"
