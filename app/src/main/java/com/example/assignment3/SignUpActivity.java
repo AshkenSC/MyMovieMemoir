@@ -31,6 +31,7 @@ public class SignUpActivity extends AppCompatActivity {
         // registration info
         final EditText username = findViewById(R.id.signup_username);
         final EditText password = findViewById(R.id.signup_password);
+        final EditText confirmPassword = findViewById(R.id.signup_confirm_password);
         final EditText firstName = findViewById(R.id.signup_first_name);
         final EditText surname = findViewById(R.id.signup_surname);
         final EditText address = findViewById(R.id.signup_address);
@@ -49,6 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String usernameStr = username.getText().toString();
+                // hash password
                 String passwordStr = null;
                 try {
                     passwordStr = SHA.sha1(password.getText().toString());
@@ -57,6 +59,16 @@ public class SignUpActivity extends AppCompatActivity {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
+                // hash confirm password
+                String confirmPasswordStr = null;
+                try {
+                    confirmPasswordStr = SHA.sha1(confirmPassword.getText().toString());
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
                 final String firstNameStr = firstName.getText().toString();
                 final String surnameStr = surname.getText().toString();
                 final String addressStr = address.getText().toString();
@@ -85,6 +97,9 @@ public class SignUpActivity extends AppCompatActivity {
 
                 if (usernameStr.isEmpty() || passwordStr.isEmpty() || firstNameStr.isEmpty()) {
                     Toast.makeText(SignUpActivity.this,"Do not leave entries with * empty!",Toast.LENGTH_LONG).show();
+                }
+                else if(passwordStr != confirmPasswordStr) {
+                    Toast.makeText(SignUpActivity.this,"Confirm password is different. Check again!",Toast.LENGTH_LONG).show();
                 }
                 else {
                     SubmitNewUser submitNewUser = new SubmitNewUser();
