@@ -16,8 +16,8 @@
 
     // related picture
     <ImageView
-        android:layout_width="326dp"
-        android:layout_height="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:src="@drawable/theater" />
