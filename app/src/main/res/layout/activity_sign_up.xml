@@ -40,7 +40,7 @@
                 android:layout_height="40dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:hint="username (for login)" />
+                android:hint="Required field" />
         </LinearLayout>
 
         <!--Linear layout: Password input-->
@@ -65,7 +65,7 @@
                 android:layout_height="40dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:hint="Input password" />
+                android:hint="Required field" />
 
         </LinearLayout>
 
@@ -94,7 +94,7 @@
                 android:layout_height="40dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:hint="Confirm password" />
+                android:hint="Required field" />
 
         </LinearLayout>
 
@@ -119,7 +119,7 @@
                 android:layout_height="40dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:hint="Input first name" />
+                android:hint="Required field" />
         </LinearLayout>
 
         <!--Linear layout: Surname input-->
@@ -143,7 +143,7 @@
                 android:layout_height="40dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:hint="Input surname" />
+               />
 
         </LinearLayout>
 
@@ -238,7 +238,7 @@
                 android:layout_height="40dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:hint="Input address" />
+                />
 
         </LinearLayout>
 
@@ -263,7 +263,7 @@
                 android:layout_height="40dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:hint="Input state" />
+                />
         </LinearLayout>
 
         <!--Postcode input-->
@@ -288,7 +288,7 @@
                 android:layout_height="40dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:hint="Input postcode" />
+                 />
 
         </LinearLayout>
 
